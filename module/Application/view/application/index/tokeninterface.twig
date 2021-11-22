@@ -1,0 +1,92 @@
+{% set user = layout().user %}
+{% set tokens = user.getApiTokens() %}
+<div x-data="tokenModel()" class="pt-12">
+
+    <div class="rounded-md bg-blue-50 p-4">
+        <div class="flex">
+            <div class="flex-shrink-0 py-1.5">
+                <!-- Heroicon name: solid/information-circle -->
+                <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            <div class="ml-3 flex-1 md:flex md:justify-between">
+                <p class="text-sm text-blue-700 py-1.5">
+                    Add tokens to see them appear in the list below
+                </p>
+                <p class="mt-3 text-sm md:mt-0 md:ml-6">
+                    <button @click="addToken"
+                            x-text="isSubmitting ? 'Wait...' : '+ Token'"
+                            x-bind:disabled="isSubmitting"
+                            type="button"
+                            class="ml-3 bg-blue-800 px-2 py-1.5 rounded-md text-sm font-medium text-white hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-50 focus:ring-indigo-600">
+
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <ul role="list" class="mt-3 grid grid-cols-3 gap-5">
+        <template x-for="token in tokenList">
+            <li class="col-span-1 flex shadow-sm rounded-md">
+                <div
+                        x-bind:disabled="tokensChanging"
+                        @click.once="removeToken(token)" class="flex-shrink-0 flex items-center justify-center w-16 bg-orange-300 hover:bg-orange-500 cursor-pointer text-sm font-medium rounded-l-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+                    <div class="flex-1 px-4 py-2 text-sm truncate">
+                        <a href="#" class="text-gray-900 font-medium hover:text-gray-600" x-text="token"></a>
+                    </div>
+                </div>
+            </li>
+        </template>
+    </ul>
+</div>
+<script>
+    function tokenModel() {
+        return {
+            tokenList: {{ user.getApiTokensAsJson() | raw }},
+
+            // we submitting?
+            isSubmitting: false,
+
+            tokensChanging: false,
+
+            addToken() {
+                this.isSubmitting = true;
+                Utilities.post(
+                    '/token/add',
+                    {}
+                ).then(json => {
+                    this.isSubmitting = false;
+                    this.success = json.success;
+                    if (!json.success) {
+                        this.generalErrorMessage = json.message;
+                        return;
+                    }
+                    this.tokenList = json.updated_tokens;
+
+                }).finally(() => {
+                    this.isSubmitting = false;
+                });
+            },
+
+            removeToken(token) {
+                this.tokensChanging = true;
+
+                Utilities.post(
+                    '/token/delete',
+                    {token: token}
+                ).then(json => {
+                    this.tokenList = json.updated_tokens;
+                }).finally(() => {
+                    this.tokensChanging = false;
+                });
+            }
+        }
+    }
+</script>

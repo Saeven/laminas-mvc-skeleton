@@ -1,0 +1,107 @@
+{% import 'macros/form-macros' as formMacros %}
+
+<!--
+  Registration Page
+-->
+<div x-data="registrationForm()" class="min-h-screen bg-white flex">
+    <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                    Create an account
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Already registered?
+                    <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        Log In
+                    </a>
+                </p>
+            </div>
+
+            {{ formMacros.conditionalSuccess() }}
+
+            <div x-show="!success" class="mt-8">
+                <div class="mt-6">
+                    <form
+                            @submit.prevent="processRegistration($event)"
+                            method="post"
+                            action="/register-submit"
+                            class="space-y-4"
+                    >
+                        {{ formRow(registerForm.get('email')) }}
+                        {{ formRow(registerForm.get('email_confirm')) }}
+                        {{ formRow(registerForm.get('password')) }}
+                        {{ formRow(registerForm.get('first_name')) }}
+                        {{ formRow(registerForm.get('last_name')) }}
+                        {{ formRow(registerForm.get('submit')) }}
+
+                        {{ formMacros.generalErrorMessage() }}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden lg:block relative w-0 flex-1">
+        <img class="absolute inset-0 h-full w-full object-cover"
+             src="https://unsplash.com/photos/VD7cu7bKHmk/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM3NDczMzcx&force=true&w=1920" alt="">
+    </div>
+</div>
+
+<script>
+
+    //
+    // Registration Process
+    //
+    function registrationForm() {
+        return {
+            {{ alpineBindings(registerForm) }}
+
+            // we submitting?
+            isSubmitting: false,
+
+            // general message that appears below the form
+            generalErrorMessage: null,
+
+            // we've succeeded
+            success: false,
+
+            // sso message response
+            successMessage: null,
+
+            clearErrors() {
+                for (const [key, value] of Object.entries(this.errors)) {
+                    this.errors[key] = [];
+                }
+            },
+
+            processRegistration($event) {
+                const form = $event.target;
+                this.isSubmitting = true;
+                this.generalErrorMessage = null;
+                this.clearErrors();
+
+                Utilities.post(
+                    form.action,
+                    this.data
+                ).then(json => {
+                    this.success = json.success;
+                    if (!json.success) {
+                        if (json.form_errors) {
+                            this.errors = json.form_errors;
+                        }
+                        this.generalErrorMessage = json.message;
+                        return;
+                    }
+                    this.successMessage = json.message;
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    });
+                }).finally(() => {
+                    this.isSubmitting = false;
+                });
+            }
+        }
+    }
+</script>

@@ -1,0 +1,15 @@
+{
+  "name": "circlicart-main-application",
+  "version": "1.0.0",
+  "description": "Main application files",
+  "main": "dist/circlicart.main.js",
+  "dependencies": {
+    "ts-loader": "9.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

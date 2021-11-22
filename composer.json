@@ -1,0 +1,93 @@
+{
+  "name": "saeven/laminas-mvc-skeleton",
+  "description": "Laminas MVC Skeleton Application",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "laminas",
+    "mvc",
+    "skeleton",
+    "framework"
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/Saeven/assetic-module.git"
+    }
+  ],
+  "require": {
+    "php": "^8.0.0",
+    "laminas/laminas-component-installer": "^2.4",
+    "laminas/laminas-development-mode": "^3.2",
+    "laminas/laminas-skeleton-installer": "^0.3",
+    "laminas/laminas-mvc": "^3.1.1",
+    "laminas/laminas-form": "3.0.1",
+    "laminas/laminas-view": "2.14.2",
+    "laminas/laminas-servicemanager": "3.10.0",
+    "doctrine/annotations": "1.13.2",
+    "doctrine/common": "3.2.x-dev",
+    "doctrine/collections": "1.6.8",
+    "doctrine/orm": "2.8.4",
+    "doctrine/dbal": "2.13.1",
+    "doctrine/instantiator": "1.4.0",
+    "doctrine/inflector": "2.1.x-dev",
+    "doctrine/doctrine-orm-module": "4.0.0",
+    "doctrine/doctrine-module": "4.2.1",
+    "doctrine/data-fixtures": "1.5.0",
+    "beberlei/doctrineextensions": "v1.3.0",
+    "ramsey/uuid": "4.1.1",
+    "ramsey/uuid-doctrine": "1.6.0",
+    "saeven/zf3-purifier": "dev-master",
+    "saeven/zf3-circlical-user": "dev-master",
+    "saeven/zf3-circlical-autowire": "dev-master",
+    "saeven/zf2-circlical-trans": "dev-master",
+    "saeven/circlical-laminas-tailwind-forms": "dev-master",
+    "saeven/zf2-form-builder": "dev-master",
+    "kokspflanze/zfc-twig": "4.0.1",
+    "twig/twig": "^3.0.1",
+    "twig/string-extra": "@stable",
+    "twig/intl-extra": "@stable",
+    "fabiang/assetic-module": "3.0.2",
+    "bjeavons/zxcvbn-php": "1.2.0",
+    "ext-json": "*"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "psr-4": {
+      "Application\\": "module/Application/src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ApplicationTest\\": "module/Application/test/"
+    }
+  },
+  "scripts": {
+    "cs-check": "vendor/bin/phpcs",
+    "cs-fix": "vendor/bin/phpcbf",
+    "development-disable": "laminas-development-mode disable",
+    "development-enable": "laminas-development-mode enable",
+    "development-status": "laminas-development-mode status",
+    "post-create-project-cmd": [
+      "@development-enable",
+      "php bin/update-gitignore.php",
+      "php -r 'if (file_exists(\"bin/remove-package-artifacts.php\")) include \"bin/remove-package-artifacts.php\";'",
+      "php -r 'if (file_exists(\"CHANGELOG.md\")) unlink(\"CHANGELOG.md\");'"
+    ],
+    "serve": "php -S 0.0.0.0:8080 -t public",
+    "test": "vendor/bin/phpunit",
+    "static-analysis": "vendor/bin/psalm --shepherd --stats"
+  },
+  "scripts-descriptions": {
+    "cs-check": "Run coding standards checks.",
+    "cs-fix": "Automatically fix coding standard issues.",
+    "development-disable": "Disable development mode.",
+    "development-enable": "Enable development mode.",
+    "development-status": "Detail whether or not the application is in development mode.",
+    "serve": "Start the built-in PHP web server and serve the application.",
+    "test": "Run unit tests."
+  }
+}

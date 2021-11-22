@@ -1,0 +1,33 @@
+{{ doctype() }}
+<html lang="en" style="height:100%;">
+<head>
+    {% block title %}
+        {{ headTitle('Sample Application') }}
+    {% endblock %}
+
+    {% block meta %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        {{ headMeta() }}
+    {% endblock %}
+
+    {% block link %}
+        {{ headLink() }}
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    {% endblock %}
+
+    {% block headscript %}
+        {{ headScript() }}
+    {% endblock %}
+
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.2.3/cdn.js" defer></script>
+</head>
+<body>
+
+{{ content | raw }}
+
+</body>
+</html>

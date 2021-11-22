@@ -1,0 +1,85 @@
+{{ doctype() }}
+<html lang="en" style="height:100%;">
+<head>
+    {% block title %}
+        {{ headTitle('Application') }}
+    {% endblock %}
+
+    {% block meta %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        {{ headMeta() }}
+    {% endblock %}
+
+    {% block link %}
+        {{ headLink() }}
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    {% endblock %}
+
+    {% block headscript %}
+        {{ headScript() }}
+    {% endblock %}
+
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.2.3/cdn.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<body x-data="pageState()" @cartupdate.window="updateCartContents">
+
+<div class="h-screen flex overflow-hidden bg-white pt-16">
+    <div class="flex-1 relative z-0 flex overflow-hidden">
+        <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last">
+            <!-- Start main area-->
+            {{ content | raw }}
+            <!-- End main area -->
+        </main>
+    </div>
+</div>
+
+<script>
+    function pageState() {
+        return {
+            cartIsVisible: false,
+
+            cartIsLoading: false,
+
+            mobileMenuIsOpen: false,
+
+            showMobileMenu() {
+                this.mobileMenuIsOpen = true;
+            },
+
+            hideMobileMenu() {
+                this.mobileMenuIsOpen = false;
+            },
+
+            loadSomething() {
+                $("#main-container").load('/cart/contents');
+            },
+
+            showSuccess(title, message) {
+                this.$dispatch(
+                    'notice', {
+                        type: 'success',
+                        title: title,
+                        message: message
+                    }
+                );
+            },
+
+            showError(title, message) {
+                this.$dispatch(
+                    'notice', {
+                        type: 'error',
+                        title: title,
+                        message: message
+                    }
+                );
+            }
+        }
+    }
+</script>
+</body>
+</html>

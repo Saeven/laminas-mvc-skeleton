@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.default-form-element {
+    @apply shadow focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md;
+}
+
+.default-form-element.error {
+    @apply shadow-red-900 focus:ring-red-500 placeholder-red-300 focus:outline-none focus:ring-red-500 block w-full sm:text-sm border-red-300 rounded-md text-red-900;
+}
+
+.default-form-error {
+    @apply mt-2 text-sm text-red-600;
+}
+
+.default-form-label {
+    @apply block text-sm font-medium text-gray-700;
+}
+
+.default-form-button {
+    @apply inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+.default-form-button-primary {
+    @apply inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+}
+
+.default-form-button {
+    @apply bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+.default-form-help-block {
+    @apply mt-2 text-sm text-gray-500;
+}
+
+.animation-1500 {
+    animation-duration: 1500ms;
+}
+
+.animation-2000 {
+    animation-duration: 1500ms;
+}

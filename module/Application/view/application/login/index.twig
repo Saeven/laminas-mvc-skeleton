@@ -1,0 +1,126 @@
+{% import 'macros/form-macros' as formMacros %}
+
+<!--
+  Login Page
+-->
+<div x-data="loginForm()" class="min-h-screen bg-white flex">
+    <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                    Sign in to your account
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Or
+                    <a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        register today!
+                    </a>
+                </p>
+            </div>
+
+            {{ formMacros.conditionalSuccess() }}
+
+            <div x-show="!success" class="mt-8">
+                <div class="mt-6">
+                    <form
+                            @submit.prevent="processLogin($event)"
+                            method="post"
+                            action="/login-submit"
+                            class="space-y-6"
+                    >
+                        {{ formRow(loginForm.get('email')) }}
+                        {{ formRow(loginForm.get('password')) }}
+
+                        {# split row for checkbox and password #}
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                {{ formElement( loginForm.get('remember_me')) }}
+                                <label for="remember_me" class="ml-2 block text-sm text-gray-900">
+                                    Remember me
+                                </label>
+                            </div>
+
+                            <div class="text-sm">
+                                <a href="/forgot-password" class="font-medium text-indigo-600 hover:text-indigo-500">
+                                    Forgot your password?
+                                </a>
+                            </div>
+                        </div>
+
+                        {{ formRow( loginForm.get('submit')) }}
+
+                        {{ formMacros.generalErrorMessage() }}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden lg:block relative w-0 flex-1">
+        <img class="absolute inset-0 h-full w-full object-cover"
+             src="https://unsplash.com/photos/wQLAGv4_OYs/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM3NTUyOTEy&force=true&w=1920" alt="">
+    </div>
+</div>
+
+<script>
+    //
+    // Regular Login Process
+    //
+    function loginForm() {
+        return {
+
+            {{ alpineBindings(loginForm) }}
+
+            // we submitting?
+            isSubmitting: false,
+
+            // general message that appears below the form
+            generalErrorMessage: null,
+
+            // we've succeeded
+            success: false,
+
+            successMessage: null,
+
+            clearErrors() {
+                for (const [key, value] of Object.entries(this.errors)) {
+                    this.errors[key] = [];
+                }
+            },
+
+            redirectToMain() {
+                setTimeout(() => {
+                    window.location = '/';
+                }, 1250);
+            },
+
+            processLogin($event) {
+                const form = $event.target;
+                this.isSubmitting = true;
+                this.generalErrorMessage = null;
+                this.clearErrors();
+
+                Utilities.post(
+                    form.action,
+                    this.data
+                ).then(json => {
+                    this.success = json.success;
+                    if (!json.success) {
+                        if (json.form_errors) {
+                            this.errors = json.form_errors;
+                        }
+                        this.generalErrorMessage = json.message;
+                        return;
+                    }
+                    this.successMessage = json.message;
+                    if (json.success) {
+                        this.redirectToMain();
+                    }
+                }).finally(() => {
+                    this.isSubmitting = false;
+                });
+            }
+        }
+    }
+</script>
