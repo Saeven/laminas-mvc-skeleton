@@ -83,14 +83,12 @@ class User implements UserInterface
      */
     private $api_tokens;
 
-
     public function __construct(string $email)
     {
         $this->email = $email;
         $this->time_registered = new \DateTimeImmutable();
         $this->roles = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
