@@ -24,7 +24,6 @@ class TokenController extends AbstractActionController
         return $this->json()->wrap(function () {
             $user = $this->auth()->requireIdentity();
             $token = new UserApiToken($user, ApplicationTokenScopeInterface::SCOPE_BASIC);
-            $this->tokenMapper->getEntityManager()->persist($token);
             $user->addApiToken($token);
             $this->userMapper->update($user);
 
@@ -43,7 +42,6 @@ class TokenController extends AbstractActionController
             }
 
             $user->removeApiToken($apiToken);
-            $this->tokenMapper->delete($apiToken);
             $this->userMapper->update($user);
 
             return ['updated_tokens' => $user->getApiTokenArray()];

@@ -77,7 +77,7 @@ class User implements UserInterface
     private $authenticationRecord;
 
     /**
-     * @ORM\OneToMany(targetEntity="CirclicalUser\Entity\UserApiToken", mappedBy="user", cascade={"all"});
+     * @ORM\OneToMany(targetEntity="CirclicalUser\Entity\UserApiToken", mappedBy="user", cascade={"all"}, orphanRemoval=true);
      *
      * @var Collection | Array<UserApiToken>
      */
