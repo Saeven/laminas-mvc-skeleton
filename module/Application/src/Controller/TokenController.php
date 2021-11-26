@@ -6,7 +6,6 @@ namespace Application\Controller;
 
 use Application\Model\ApplicationTokenScopeInterface;
 use CirclicalUser\Entity\UserApiToken;
-use CirclicalUser\Mapper\UserApiTokenMapper;
 use CirclicalUser\Mapper\UserMapper;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\JsonModel;
@@ -14,7 +13,6 @@ use Laminas\View\Model\JsonModel;
 class TokenController extends AbstractActionController
 {
     public function __construct(
-        private UserApiTokenMapper $tokenMapper,
         private UserMapper $userMapper
     ) {
     }
@@ -24,6 +22,7 @@ class TokenController extends AbstractActionController
         return $this->json()->wrap(function () {
             $user = $this->auth()->requireIdentity();
             $token = new UserApiToken($user, ApplicationTokenScopeInterface::SCOPE_BASIC);
+
             $user->addApiToken($token);
             $this->userMapper->update($user);
 
