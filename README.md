@@ -4,6 +4,11 @@
 
 This is a skeleton application based on the Laminas MVC skeleton that adds AlpineJS, Twig, Doctrine, Circlical/User, Assetic, TailwindCSS and more!
 
+
+https://user-images.githubusercontent.com/887224/144365412-049eeaab-2300-4144-b174-099d55d02e93.mov
+
+
+
 ## Installation
 
 * Clone this project, composer install
