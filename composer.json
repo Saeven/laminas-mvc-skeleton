@@ -48,7 +48,8 @@
     "twig/intl-extra": "@stable",
     "fabiang/assetic-module": "3.0.2",
     "bjeavons/zxcvbn-php": "1.2.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-intl": "*"
   },
   "replace": {
     "laminas/laminas-cache-storage-adapter-apc": "*",
