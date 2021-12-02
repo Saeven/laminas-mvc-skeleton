@@ -25,6 +25,7 @@ return [
     'Circlical\LaminasTools',
     'Circlical\TailwindForms',
     'Laminas\DeveloperTools',
+    'SanSessionToolbar',
     'Application',
     'Fabiang\AsseticBundle',
     'CirclicalAutoWire',
