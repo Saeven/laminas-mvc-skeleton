@@ -24,6 +24,7 @@ return [
     'ZfcTwig',
     'Circlical\LaminasTools',
     'Circlical\TailwindForms',
+    'Laminas\DeveloperTools',
     'Application',
     'Fabiang\AsseticBundle',
     'CirclicalAutoWire',
