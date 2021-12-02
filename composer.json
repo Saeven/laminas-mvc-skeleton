@@ -27,12 +27,12 @@
     "doctrine/annotations": "1.13.2",
     "doctrine/common": "3.2.x-dev",
     "doctrine/collections": "1.6.8",
-    "doctrine/orm": "2.8.4",
-    "doctrine/dbal": "2.13.1",
+    "doctrine/orm": "2.10.2",
+    "doctrine/dbal": "2.13.6",
     "doctrine/instantiator": "1.4.0",
     "doctrine/inflector": "2.1.x-dev",
-    "doctrine/doctrine-orm-module": "4.0.0",
-    "doctrine/doctrine-module": "4.2.1",
+    "doctrine/doctrine-orm-module": "4.1.0",
+    "doctrine/doctrine-module": "4.2.2",
     "doctrine/data-fixtures": "1.5.0",
     "beberlei/doctrineextensions": "v1.3.0",
     "ramsey/uuid": "4.1.1",
@@ -50,8 +50,24 @@
     "fabiang/assetic-module": "3.0.2",
     "bjeavons/zxcvbn-php": "1.2.0",
     "ext-json": "*"
-  }
-  ,
+  },
+  "replace": {
+    "laminas/laminas-cache-storage-adapter-apc": "*",
+    "laminas/laminas-cache-storage-adapter-apcu": "*",
+    "laminas/laminas-cache-storage-adapter-blackhole": "*",
+    "laminas/laminas-cache-storage-adapter-dba": "*",
+    "laminas/laminas-cache-storage-adapter-ext-mongodb": "*",
+    "laminas/laminas-cache-storage-adapter-filesystem": "*",
+    "laminas/laminas-cache-storage-adapter-memcache": "*",
+    "laminas/laminas-cache-storage-adapter-memcached": "*",
+    "laminas/laminas-cache-storage-adapter-mongodb": "*",
+    "laminas/laminas-cache-storage-adapter-redis": "*",
+    "laminas/laminas-cache-storage-adapter-session": "*",
+    "laminas/laminas-cache-storage-adapter-wincache": "*",
+    "laminas/laminas-cache-storage-adapter-xcache": "*",
+    "laminas/laminas-cache-storage-adapter-zend-server": "*",
+    "laminas/laminas-authentication": "*"
+  },
   "require-dev": {
     "roave/security-advisories": "dev-latest"
   },
