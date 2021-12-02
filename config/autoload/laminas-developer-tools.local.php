@@ -67,7 +67,7 @@ return [
              * Example: 'collectors' => ['db' => null]
              * Expects: array
              */
-            'collectors' => [],
+            'collectors' => ['db' => null],
         ],
         'events' => [
             /**

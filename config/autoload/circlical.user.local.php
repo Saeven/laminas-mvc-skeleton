@@ -46,7 +46,7 @@ return [
              */
             'auth' => [
 
-                'secure_cookies' => function () {
+                'secure_cookies' => static function () {
                     return \Application\Model\System::isSSL();
                 },
 
