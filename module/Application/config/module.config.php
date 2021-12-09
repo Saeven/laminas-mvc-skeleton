@@ -10,7 +10,9 @@ use Application\Controller\RegistrationController;
 use Application\Controller\TokenController;
 use Application\Entity\User;
 use Application\Factory\Listener\LayoutListenerFactory;
+use Application\Factory\Listener\RegistrationListenerFactory;
 use Application\Listener\LayoutListener;
+use Application\Listener\RegistrationListener;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
@@ -199,6 +201,7 @@ return [
     'service_manager' => [
         'factories' => [
             LayoutListener::class => LayoutListenerFactory::class,
+            RegistrationListener::class => RegistrationListenerFactory::class,
         ],
     ],
 ];

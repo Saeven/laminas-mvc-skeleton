@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonException;
+use Lemonade\Entity\UserEmailVerify;
 
 /**
  * @ORM\Entity
@@ -82,6 +83,13 @@ class User implements UserInterface
      * @var Collection | Array<UserApiToken>
      */
     private $api_tokens;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Application\Entity\UserEmailVerification", mappedBy="user")
+     *
+     * @var ?UserEmailVerification
+     */
+    private $verification_data;
 
     public function __construct(string $email)
     {
@@ -200,5 +208,14 @@ class User implements UserInterface
         if ($this->api_tokens->contains($token)) {
             $this->api_tokens->removeElement($token);
         }
+    }
+
+    public function getVerificationData(): UserEmailVerification
+    {
+        if ($this->verification_data === null) {
+            $this->verification_data = new UserEmailVerification($this);
+        }
+
+        return $this->verification_data;
     }
 }
