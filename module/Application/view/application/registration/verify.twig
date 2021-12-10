@@ -1,0 +1,65 @@
+{% import 'macros/form-macros' as formMacros %}
+
+
+<div x-data="validationForm()" class="min-h-screen bg-white flex">
+    <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                    Verification
+                </h2>
+
+                {% if success %}
+                    <p class="mt-2 text-sm text-indigo-600">
+                        Congratulations! Your account is now verified. You can now proceed to the <a class="underline font-bold" href="/">main area</a>.
+                    </p>
+                {% else %}
+                    <p class="mt-2 text-sm text-red-600">
+                        {{ message }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="hidden lg:block relative w-0 flex-1">
+        <img class="absolute inset-0 h-full w-full object-cover"
+             src="https://unsplash.com/photos/pVq6YhmDPtk/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTExNDk4&force=true&w=1920" alt="">
+    </div>
+</div>
+
+<script>
+    //
+    // Registration Process
+    //
+    function validationForm() {
+        return {
+            // we submitting?
+            isSubmitting: false,
+
+            // general message that appears below the form
+            generalErrorMessage: null,
+
+            // we've succeeded
+            success: false,
+
+            // sso message response
+            successMessage: null,
+
+            requestNewValidation() {
+                Utilities.get(
+                    '/verification/resend'
+                ).then(json => {
+                    this.success = json.success;
+                    if (!json.success) {
+                        this.generalErrorMessage = json.message;
+                        return;
+                    }
+                    this.successMessage = json.message;
+                }).finally(() => {
+                    this.isSubmitting = false;
+                });
+            }
+        }
+    }
+</script>

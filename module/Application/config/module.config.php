@@ -8,12 +8,14 @@ use Application\Controller\LoginController;
 use Application\Controller\LogoutController;
 use Application\Controller\RegistrationController;
 use Application\Controller\TokenController;
+use Application\Controller\VerificationController;
 use Application\Entity\User;
 use Application\Factory\Listener\LayoutListenerFactory;
+use Application\Factory\Listener\RegistrationListenerFactory;
 use Application\Listener\LayoutListener;
+use Application\Listener\RegistrationListener;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
-use Laminas\ServiceManager\Factory\InvokableFactory;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 return [
@@ -136,6 +138,31 @@ return [
                 ],
             ],
 
+            'verification-resend' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/verification/resend',
+                    'defaults' => [
+                        'controller' => VerificationController::class,
+                        'action' => 'resend',
+                    ],
+                ],
+            ],
+
+            'verification-check' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/register/verify/:verificationCode',
+                    'defaults' => [
+                        'controller' => RegistrationController::class,
+                        'action' => 'verify',
+                    ],
+                    'constraints' => [
+                        'verificationCode' => '[a-z0-9]{20}'
+                    ]
+                ],
+            ],
+
             //
             // Boilerplate Routes Below
             //
@@ -199,6 +226,7 @@ return [
     'service_manager' => [
         'factories' => [
             LayoutListener::class => LayoutListenerFactory::class,
+            RegistrationListener::class => RegistrationListenerFactory::class,
         ],
     ],
 ];
