@@ -3,12 +3,16 @@
 namespace Application\Controller;
 
 use Application\Entity\User;
+use Application\Exception\VerificationException;
 use Application\Form\RegisterForm;
 use CirclicalUser\Mapper\UserMapper;
 use CirclicalUser\Service\AccessService;
 use CirclicalUser\Service\AuthenticationService;
+use Exception;
+use Laminas\EventManager\EventManager;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Stdlib\ResponseInterface;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
 
@@ -18,11 +22,12 @@ class RegistrationController extends AbstractActionController
         private RegisterForm $registerForm,
         private UserMapper $userMapper,
         private AccessService $accessService,
-        private AuthenticationService $authenticationService
+        private AuthenticationService $authenticationService,
+        private EventManager $eventManager
     ) {
     }
 
-    public function indexAction(): ViewModel | Response
+    public function indexAction(): ViewModel|Response
     {
         if ($this->auth()->getIdentity()) {
             return $this->redirect()->toUrl('/');
@@ -30,11 +35,9 @@ class RegistrationController extends AbstractActionController
 
         $this->layout()->setTemplate('layout/layout-auth');
 
-        $viewModel = new ViewModel([
+        return new ViewModel([
             'registerForm' => $this->registerForm,
         ]);
-
-        return $viewModel;
     }
 
     public function submitAction(): JsonModel
@@ -56,13 +59,41 @@ class RegistrationController extends AbstractActionController
                 $this->registerForm->getInputFilter()?->getValue('password')
             );
 
-
-            $this->getEventManager()->trigger(User::EVENT_REGISTERED, $user);
+            $this->eventManager->trigger(User::EVENT_REGISTERED, $user);
 
             return [
                 'success' => true,
                 'message' => "<b>Success!</b> Thanks for registering! Please wait while we redirect you to the main page.",
             ];
         });
+    }
+
+    public function verifyAction(): ViewModel|ResponseInterface
+    {
+        $this->layout()->setTemplate('layout/layout-auth');
+        $success = false;
+
+        try {
+            /** @var User $user */
+            $user = $this->auth()->requireIdentity();
+            if ($user->getVerificationData()->isVerified()) {
+                return $this->redirect()->toUrl('/');
+            }
+
+            if (!$user->getVerificationData()->verify($this->params()->fromRoute('verificationCode'))) {
+                throw new VerificationException("That verification code was not accurate, please try again.");
+            }
+
+            $this->userMapper->update($user);
+            $message = "Verification successful!";
+            $success = true;
+        } catch (Exception $x) {
+            $message = $x->getMessage();
+        }
+
+        return new ViewModel([
+            'message' => $message,
+            'success' => $success,
+        ]);
     }
 }

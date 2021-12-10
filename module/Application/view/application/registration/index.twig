@@ -97,7 +97,7 @@
                     this.successMessage = json.message;
                     setTimeout(() => {
                         window.location.href = '/';
-                    });
+                    }, 1250);
                 }).finally(() => {
                     this.isSubmitting = false;
                 });

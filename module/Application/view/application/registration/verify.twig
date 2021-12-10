@@ -7,41 +7,24 @@
             <div>
                 <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
                 <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-                    Verify Your Email
+                    Verification
                 </h2>
-                <p class="mt-2 text-sm text-gray-600">
-                    You'll need to verify your email before you can proceed! Please check your email for the special one-time link we've sent you.
-                </p>
-                <div class="mt-2 max-w-xl text-sm text-yellow-600">
-                    <p>
-                        The email you used to register, is {{ layout().user.getEmail() }}. Is there a typo in there?
-                    </p>
-                </div>
-                <div class="mt-5">
-                    <a href="/logout" class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:text-sm">
-                        Start a new registration
-                    </a>
-                </div>
-                <div class="mt-10 max-w-xl text-sm text-indigo-600">
-                    <p>
-                        Haven't gotten the email yet?
-                    </p>
-                </div>
-                <div class="mt-5">
-                    <button @click="requestNewValidation()"
-                            class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-                        Try Resending
-                    </button>
 
-                    {{ formMacros.conditionalSuccess() }}
-
-                </div>
+                {% if success %}
+                    <p class="mt-2 text-sm text-indigo-600">
+                        Congratulations! Your account is now verified. You can now proceed to the <a class="underline font-bold" href="/">main area</a>.
+                    </p>
+                {% else %}
+                    <p class="mt-2 text-sm text-red-600">
+                        {{ message }}
+                    </p>
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="hidden lg:block relative w-0 flex-1">
         <img class="absolute inset-0 h-full w-full object-cover"
-             src="https://unsplash.com/photos/Lki74Jj7H-U/download?force=true&w=1920" alt="">
+             src="https://unsplash.com/photos/pVq6YhmDPtk/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MTExNDk4&force=true&w=1920" alt="">
     </div>
 </div>
 

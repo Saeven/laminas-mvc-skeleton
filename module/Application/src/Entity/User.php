@@ -85,7 +85,7 @@ class User implements UserInterface
     private $api_tokens;
 
     /**
-     * @ORM\OneToOne(targetEntity="Application\Entity\UserEmailVerification", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Application\Entity\UserEmailVerification", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
      *
      * @var ?UserEmailVerification
      */

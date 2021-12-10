@@ -7,7 +7,6 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use function bin2hex;
-use function openssl_random_pseudo_bytes;
 
 /**
  * User email verification
@@ -58,18 +57,15 @@ class UserEmailVerification
         return $this->verified;
     }
 
-    public function setVerified(bool $verified)
-    {
-        $this->verified = $verified;
-    }
-
     public function getToken(): string
     {
         return $this->token;
     }
 
-    public function setToken(string $token)
+    public function verify(string $check): bool
     {
-        $this->token = $token;
+        $this->verified = $this->token === $check;
+
+        return $this->verified;
     }
 }

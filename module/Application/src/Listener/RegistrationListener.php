@@ -4,8 +4,8 @@ namespace Application\Listener;
 
 use Application\Controller\VerificationController;
 use Application\Entity\User;
-use Application\Entity\UserEmailVerification;
 use CirclicalUser\Mapper\UserMapper;
+use CirclicalUser\Module;
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
@@ -14,6 +14,7 @@ use Laminas\Router\RouteMatch;
 use SilverStar\Model\OptionsProvider;
 use SilverStar\Service\CurrencyService;
 
+use function in_array;
 use function mail;
 
 class RegistrationListener implements ListenerAggregateInterface
@@ -29,7 +30,7 @@ class RegistrationListener implements ListenerAggregateInterface
 
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        if (!\CirclicalUser\Module::isConsole()) {
+        if (!Module::isConsole()) {
             $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, [$this, 'enforceUserValidation']);
             $this->listeners[] = $events->attach(User::EVENT_REGISTERED, [$this, 'sendVerificationToken']);
         }
@@ -49,7 +50,11 @@ class RegistrationListener implements ListenerAggregateInterface
             return;
         }
 
-        if( !$this->authenticatedUser->getVerificationData()->isVerified()){
+        if (in_array($routeMatch->getMatchedRouteName(), ['verification-resend', 'verification-check'])) {
+            return;
+        }
+
+        if (!$this->authenticatedUser->getVerificationData()->isVerified()) {
             $routeMatch = new RouteMatch([
                 'controller' => VerificationController::class,
                 'action' => 'index',
