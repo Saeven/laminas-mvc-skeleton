@@ -12,5 +12,4 @@
  * file.
  */
 
-return [
-];
+return [];

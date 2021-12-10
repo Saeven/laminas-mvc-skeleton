@@ -1,6 +1,8 @@
 <?php
 
-use Doctrine\DBAL\Driver\PDOMySql\Driver;
+use Doctrine\DBAL\Driver\PDO\MySQL\Driver;
+use DoctrineExtensions\Query\Mysql\MatchAgainst;
+use DoctrineExtensions\Query\Mysql\SubstringIndex;
 use DoctrineExtensions\Query\Mysql\UtcTimestamp;
 use DoctrineExtensions\Query\Mysql\UnixTimestamp;
 use DoctrineExtensions\Query\Mysql\Date;
@@ -23,8 +25,8 @@ return [
                     'utc_timestamp' => UtcTimestamp::class,
                 ],
                 'string_functions' => [
-                    'substring_index' => \DoctrineExtensions\Query\Mysql\SubstringIndex::class,
-                    'match' => DoctrineExtensions\Query\Mysql\MatchAgainst::class,
+                    'substring_index' => SubstringIndex::class,
+                    'match' => MatchAgainst::class,
                 ],
             ],
         ],
