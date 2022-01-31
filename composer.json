@@ -20,7 +20,7 @@
     "laminas/laminas-component-installer": "^2.4",
     "laminas/laminas-skeleton-installer": "^0.3",
     "laminas/laminas-mvc": "^3.1.1",
-    "laminas/laminas-form": "3.0.1",
+    "laminas/laminas-form": "3.1.1",
     "laminas/laminas-view": "2.14.2",
     "laminas/laminas-servicemanager": "3.10.0",
     "doctrine/annotations": "1.13.2",
@@ -110,5 +110,14 @@
     "development-status": "Detail whether or not the application is in development mode.",
     "serve": "Start the built-in PHP web server and serve the application.",
     "test": "Run unit tests."
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "composer/package-versions-deprecated": true,
+      "laminas/laminas-dependency-plugin": true,
+      "laminas/laminas-component-installer": true,
+      "laminas/laminas-skeleton-installer": true
+    }
   }
 }
