@@ -8,7 +8,7 @@ return [
     'combine' => true,
 
     'rendererToStrategy' => [
-        \Laminas\View\Renderer\JsonRenderer::class => \Fabiang\AsseticBundle\View\NoneStrategy::class,
+        \Laminas\View\Renderer\JsonRenderer::class => \Circlical\AsseticBundle\View\NoneStrategy::class,
     ],
 
     /*
