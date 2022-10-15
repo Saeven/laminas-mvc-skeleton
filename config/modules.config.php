@@ -27,7 +27,7 @@ return [
     'Laminas\DeveloperTools',
     'SanSessionToolbar',
     'Application',
-    'Fabiang\AsseticBundle',
+    'Circlical\AsseticBundle',
     'CirclicalAutoWire',
     'CirclicalUser',
 ];
