@@ -8,7 +8,6 @@ use Application\Entity\User;
 use Exception;
 use Laminas\View\Model\ViewModel;
 use Mailgun\Mailgun;
-
 use ZfcTwig\View\TwigRenderer;
 
 use function sprintf;

@@ -94,7 +94,7 @@ return [
             LayoutListener::class => LayoutListenerFactory::class,
             RegistrationListener::class => RegistrationListenerFactory::class,
             UserService::class => UserServiceFactory::class,
-            MailProviderInterface::class =>  MailgunMailProviderFactory::class,
+            MailProviderInterface::class => MailgunMailProviderFactory::class,
         ],
     ],
 ];
