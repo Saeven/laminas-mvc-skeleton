@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Factory\Listener;
 
 use Application\Listener\RegistrationListener;
+use Application\Provider\Mail\MailProviderInterface;
 use CirclicalUser\Mapper\UserMapper;
 use CirclicalUser\Service\AuthenticationService;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -16,7 +17,8 @@ final class RegistrationListenerFactory implements FactoryInterface
     {
         return new RegistrationListener(
             $container->get(AuthenticationService::class)->getIdentity(),
-            $container->get(UserMapper::class)
+            $container->get(UserMapper::class),
+            $container->get(MailProviderInterface::class)
         );
     }
 }

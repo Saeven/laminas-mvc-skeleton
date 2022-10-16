@@ -13,7 +13,7 @@ module.exports = {
   build: {
     templates: {
       destination: {
-        path: 'build_production',
+        path: '../../module/Application/view/emails/',
       },
     },
   },

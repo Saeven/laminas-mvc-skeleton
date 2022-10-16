@@ -6,7 +6,10 @@ namespace Application\Provider\Mail;
 
 use Application\Entity\User;
 use Exception;
+use Laminas\View\Model\ViewModel;
 use Mailgun\Mailgun;
+
+use ZfcTwig\View\TwigRenderer;
 
 use function sprintf;
 use function strtr;
@@ -14,6 +17,7 @@ use function strtr;
 class MailgunMailProvider implements MailProviderInterface
 {
     public function __construct(
+        private TwigRenderer $twigRenderer,
         private Mailgun $mailgun,
         private string $mailgunDomain,
         private string $fromName,
@@ -21,7 +25,7 @@ class MailgunMailProvider implements MailProviderInterface
     ) {
     }
 
-    public function send(User $user, string $subject, string $message): void
+    public function send(User $user, string $subject, ViewModel $message): void
     {
         $parameters = [
             'from' => sprintf(
@@ -37,7 +41,7 @@ class MailgunMailProvider implements MailProviderInterface
             ),
             'subject' => $subject,
             'html' => strtr(
-                $message,
+                $this->twigRenderer->render($message),
                 [
                     'USER_FIRST_NAME' => $user->getFirstName(),
                     'USER_LAST_NAME' => $user->getLastName(),
@@ -51,5 +55,13 @@ class MailgunMailProvider implements MailProviderInterface
         } catch (Exception $x) {
             // shhh....
         }
+    }
+
+    public function applyIdentityVariables(ViewModel $viewModel): ViewModel
+    {
+        return $viewModel->setVariables([
+            'fromName' => $this->fromName,
+            'fromEmail' => $this->fromEmail,
+        ]);
     }
 }

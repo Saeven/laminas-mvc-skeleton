@@ -160,7 +160,8 @@ module.exports = {
     textOpacity: false,
   },
   plugins: [
-    require('tailwindcss-mso'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'),
     require('tailwindcss-box-shadow'),
     require('tailwindcss-email-variants'),
   ],

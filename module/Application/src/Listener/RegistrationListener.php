@@ -13,8 +13,12 @@ use CirclicalUser\Module;
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
+use Laminas\Mvc\I18n\Translator;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Router\RouteMatch;
+
+use Laminas\View\Model\ViewModel;
+use ZfcTwig\View\TwigRenderer;
 
 use function in_array;
 use function mail;
@@ -95,5 +99,18 @@ class RegistrationListener implements ListenerAggregateInterface
     {
         $user = $event->getTarget();
         $token = $event->getParam('token');
+
+        $viewModel = (new ViewModel())
+            ->setTerminal(true)
+            ->setTemplate('emails/forgot-password')
+            ->setVariables([
+                'token' => $token,
+            ]);
+
+        $this->mailProvider->send(
+            $user,
+            "Reset Your Password",
+            $viewModel
+        );
     }
 }

@@ -16,10 +16,6 @@ module.exports = {
       destination: {
         path: 'build_local',
       },
-      assets: {
-        source: 'src/images',
-        destination: 'images',
-      },
     },
   },
 }

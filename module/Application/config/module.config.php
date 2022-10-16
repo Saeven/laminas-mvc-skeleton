@@ -14,7 +14,6 @@ use Application\Factory\Service\UserServiceFactory;
 use Application\Factory\View\Helper\AssetHelperFactory;
 use Application\Listener\LayoutListener;
 use Application\Listener\RegistrationListener;
-use Application\Provider\Mail\MailgunMailProvider;
 use Application\Provider\Mail\MailProviderInterface;
 use Application\Service\UserService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -95,8 +94,7 @@ return [
             LayoutListener::class => LayoutListenerFactory::class,
             RegistrationListener::class => RegistrationListenerFactory::class,
             UserService::class => UserServiceFactory::class,
-            MailProviderInterface::class => MailgunMailProvider::class,
-            MailgunMailProvider::class => MailgunMailProviderFactory::class,
+            MailProviderInterface::class =>  MailgunMailProviderFactory::class,
         ],
     ],
 ];

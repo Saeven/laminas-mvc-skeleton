@@ -8,6 +8,7 @@ use Application\Provider\Mail\MailgunMailProvider;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mailgun\Mailgun;
 use Psr\Container\ContainerInterface;
+use ZfcTwig\View\TwigRenderer;
 
 final class MailgunMailProviderFactory implements FactoryInterface
 {
@@ -17,6 +18,7 @@ final class MailgunMailProviderFactory implements FactoryInterface
         $mailgunConfig = $config['mailgun'];
 
         return new MailgunMailProvider(
+            twigRenderer: $container->get(TwigRenderer::class),
             mailgun: Mailgun::create($mailgunConfig['key']),
             mailgunDomain: $mailgunConfig['domain'] ?? 'not set',
             fromName: $config['identity']['name'] ?? 'identity not set',
