@@ -7,8 +7,8 @@ namespace Application\Factory\Listener;
 use Application\Listener\RegistrationListener;
 use CirclicalUser\Mapper\UserMapper;
 use CirclicalUser\Service\AuthenticationService;
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 final class RegistrationListenerFactory implements FactoryInterface
 {
@@ -20,4 +20,3 @@ final class RegistrationListenerFactory implements FactoryInterface
         );
     }
 }
-

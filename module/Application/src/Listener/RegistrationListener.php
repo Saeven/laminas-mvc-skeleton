@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Listener;
 
 use Application\Controller\VerificationController;
 use Application\Entity\User;
+use Application\Provider\Mail\MailProviderInterface;
+use Application\Service\UserService;
 use CirclicalUser\Mapper\UserMapper;
 use CirclicalUser\Module;
 use Laminas\EventManager\EventInterface;
@@ -11,11 +15,10 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Router\RouteMatch;
-use SilverStar\Model\OptionsProvider;
-use SilverStar\Service\CurrencyService;
 
 use function in_array;
 use function mail;
+use function sprintf;
 
 class RegistrationListener implements ListenerAggregateInterface
 {
@@ -23,19 +26,27 @@ class RegistrationListener implements ListenerAggregateInterface
 
     public function __construct(
         private ?User $authenticatedUser,
-        private UserMapper $userMapper
+        private UserMapper $userMapper,
+        private MailProviderInterface $mailProvider
     ) {
         $this->listeners = [];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         if (!Module::isConsole()) {
             $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, [$this, 'enforceUserValidation']);
             $this->listeners[] = $events->attach(User::EVENT_REGISTERED, [$this, 'sendVerificationToken']);
+            $this->listeners[] = $events->attach(UserService::EVENT_RESET_EMAIL_REQUEST, [$this, 'sendForgotPasswordEmail']);
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function detach(EventManagerInterface $events)
     {
         foreach ($this->listeners as $index => $listener) {
@@ -78,5 +89,11 @@ class RegistrationListener implements ListenerAggregateInterface
             'Please Verify Your Account',
             sprintf("Your validation link is http://0.0.0.0:8080/register/verify/%s", $verificationData->getToken())
         );
+    }
+
+    public function sendForgotPasswordEmail(EventInterface $event): void
+    {
+        $user = $event->getTarget();
+        $token = $event->getParam('token');
     }
 }

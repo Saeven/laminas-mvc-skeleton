@@ -1,7 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
+use Application\Factory\InputFilter\ForgotPasswordInputFilterFactory;
+use Application\Factory\InputFilter\LoginInputFilterFactory;
+use Application\Factory\InputFilter\RegisterInputFilterFactory;
+use Application\InputFilter\ForgotPasswordInputFilter;
+use Application\InputFilter\LoginInputFilter;
+use Application\InputFilter\RegisterInputFilter;
+
 return [
     'factories' => [
-        \Application\InputFilter\RegisterInputFilter::class => \Application\Factory\InputFilter\RegisterInputFilterFactory::class,
-        \Application\InputFilter\LoginInputFilter::class => \Application\Factory\InputFilter\LoginInputFilterFactory::class,
+        RegisterInputFilter::class => RegisterInputFilterFactory::class,
+        LoginInputFilter::class => LoginInputFilterFactory::class,
+        ForgotPasswordInputFilter::class => ForgotPasswordInputFilterFactory::class,
     ],
 ];

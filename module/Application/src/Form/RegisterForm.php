@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Form;
 
+use Circlical\TailwindForms\Form\Form;
+use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Password;
 use Laminas\Form\Element\Text;
-use Laminas\Form\Element\Button;
-use Circlical\TailwindForms\Form\Form;
+
+use function _;
 
 class RegisterForm extends Form
 {
     public function __construct(
-        string $name = null,
+        ?string $name = null,
         ?array $options = [],
     ) {
         $this->setGenerateAlpineMarkup(true);
@@ -84,13 +88,12 @@ class RegisterForm extends Form
             ],
         ]);
 
-
         $this->add([
             'name' => 'submit',
             'type' => Button::class,
             'options' => [
                 'label' => 'Submit',
-                \Circlical\TailwindForms\Form\Form::BUTTON_TYPE => 'primary',
+                Form::BUTTON_TYPE => 'primary',
                 Form::ADD_CLASSES => 'g-recaptcha w-full disabled:bg-indigo-300',
             ],
             'attributes' => [

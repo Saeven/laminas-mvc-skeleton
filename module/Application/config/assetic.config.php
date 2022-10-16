@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+use Circlical\AsseticBundle\View\NoneStrategy;
+use Laminas\View\Renderer\JsonRenderer;
+
 return [
     'buildOnRequest' => true,
     'cacheEnabled' => false,
     'webPath' => realpath('public/assets'),
     'basePath' => 'assets',
     'combine' => true,
-
     'rendererToStrategy' => [
-        \Laminas\View\Renderer\JsonRenderer::class => \Circlical\AsseticBundle\View\NoneStrategy::class,
+        JsonRenderer::class => NoneStrategy::class,
     ],
 
     /*
@@ -32,12 +36,11 @@ return [
      */
     'modules' => [
         'application' => [
-            # module root path for yout css and js files
+            // module root path for yout css and js files
             'root_path' => __DIR__ . '/../assets',
 
-            # collection of assets
+            // collection of assets
             'collections' => [
-
                 'base_css' => [
                     'assets' => [
                         'css/tailwind-compiled.css',
@@ -46,7 +49,6 @@ return [
                         'output' => 'head_application.css',
                     ],
                 ],
-
                 'global_js' => [
                     'assets' => [
                         'js/fetch.utilities.js',
@@ -55,7 +57,6 @@ return [
                         'output' => 'head_global.js',
                     ],
                 ],
-
                 'base_images' => [
                     'assets' => [
                         'images/*/*.png',

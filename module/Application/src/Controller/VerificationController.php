@@ -6,6 +6,7 @@ namespace Application\Controller;
 
 use Application\Entity\User;
 use Laminas\EventManager\EventManager;
+use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
@@ -17,11 +18,10 @@ class VerificationController extends AbstractActionController
     ) {
     }
 
-    public function indexAction()
+    public function indexAction(): Response|ViewModel
     {
-        /** @var User $user */
         if (($user = $this->auth()->getIdentity()) && $user->getVerificationData()->isVerified()) {
-            return $this->redirect()->toRoute('main');
+            return $this->redirect()->toRoute('home');
         }
 
         $this->eventManager->trigger(User::EVENT_REGISTERED, $user);

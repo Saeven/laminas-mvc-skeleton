@@ -1,40 +1,50 @@
 <?xml version="1.0"?>
-<ruleset name="Laminas Coding Standard">
-    <description>Laminas Coding Standard</description>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
 
-    <!-- display progress -->
-    <arg value="p"/>
+    <arg name="basepath" value="."/>
+    <arg name="cache" value="tmp/.phpcs-cache"/>
     <arg name="colors"/>
-    <arg name="extensions" value="php,dist,phtml"/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
 
-    <!-- inherit rules from: -->
-    <rule ref="PSR12"/>
-    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
-    <rule ref="Generic.Formatting.SpaceAfterNot"/>
-    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
-        <properties>
-            <property name="ignoreNewlines" value="true"/>
-        </properties>
-    </rule>
-    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
-        <properties>
-            <property name="ignoreBlankLines" value="false"/>
-        </properties>
-    </rule>
-    <rule ref="PSR1.Files.SideEffects">
-        <exclude-pattern>public/index.php</exclude-pattern>
-    </rule>
-
-    <!-- view files adjustments -->
-    <rule ref="Generic.Files.LineLength">
-        <exclude-pattern>*.phtml</exclude-pattern>
-    </rule>
-    <rule ref="PSR12.Files.FileHeader">
-        <exclude-pattern>*.phtml</exclude-pattern>
-    </rule>
+    <!-- Show progress -->
+    <arg value="p"/>
 
     <!-- Paths to check -->
-    <file>config</file>
     <file>module</file>
-    <file>public/index.php</file>
+
+    <exclude-pattern>**Spec.php</exclude-pattern>
+    <exclude-pattern>module/*/bundle/**</exclude-pattern>
+    <exclude-pattern>module/*/fixtures/**</exclude-pattern>
+
+    <!-- Include all rules from the Laminas Coding Standard -->
+    <rule ref="LaminasCodingStandard">
+        <exclude name="Generic.Formatting.MultipleStatementAlignment"/>
+        <exclude name="Generic.Formatting.SpaceAfterNot"/>
+        <exclude name="WebimpressCodingStandard.Arrays.DoubleArrow"/>
+        <exclude name="SlevomatCodingStandard.Commenting.EmptyComment.EmptyComment"/>
+        <exclude name="WebimpressCodingStandard.Formatting.Reference.UnexpectedSpace"/>
+        <exclude name="WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="220"/>
+            <property name="absoluteLineLimit" value="220"/>
+        </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
+        <exclude-pattern>**Factory.php</exclude-pattern>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
+        <exclude-pattern>**Factory.php</exclude-pattern>
+    </rule>
+
+    <rule ref="WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCapsProperty">
+        <exclude-pattern>**/Entity/**</exclude-pattern>
+    </rule>
+
 </ruleset>

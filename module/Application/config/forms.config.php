@@ -1,7 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
+use Application\Factory\Form\ForgotPasswordFormFactory;
+use Application\Factory\Form\LoginFormFactory;
+use Application\Factory\Form\RegisterFormFactory;
+use Application\Form\ForgotPasswordForm;
+use Application\Form\LoginForm;
+use Application\Form\RegisterForm;
+
 return [
     'factories' => [
-        \Application\Form\RegisterForm::class => \Application\Factory\Form\RegisterFormFactory::class,
-        \Application\Form\LoginForm::class => \Application\Factory\Form\LoginFormFactory::class,
+        RegisterForm::class => RegisterFormFactory::class,
+        LoginForm::class => LoginFormFactory::class,
+        ForgotPasswordForm::class => ForgotPasswordFormFactory::class,
     ],
 ];

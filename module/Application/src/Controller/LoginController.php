@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Controller;
 
 use Application\Entity\User;
 use Application\Form\LoginForm;
 use CirclicalUser\Exception\BadPasswordException;
 use CirclicalUser\Exception\NoSuchUserException;
+use Exception;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Stdlib\ResponseInterface;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
 
@@ -20,10 +24,10 @@ class LoginController extends AbstractActionController
     /**
      * Display the form
      */
-    public function indexAction()
+    public function indexAction(): ResponseInterface | ViewModel
     {
         if ($this->auth()->getIdentity()) {
-            return $this->redirect()->toRoute('main');
+            return $this->redirect()->toRoute('home');
         }
 
         // this could be an auth redirect
@@ -46,10 +50,9 @@ class LoginController extends AbstractActionController
                 if ($authenticationResult instanceof User) {
                     return "<b>Success!</b> Redirecting you shortly...";
                 }
-            } catch (NoSuchUserException|BadPasswordException) {
-                throw new \Exception("Sorry! That email and password combination was incorrect.");
+            } catch (NoSuchUserException | BadPasswordException) {
+                throw new Exception("Sorry! That email and password combination was incorrect.");
             }
         });
     }
-
 }

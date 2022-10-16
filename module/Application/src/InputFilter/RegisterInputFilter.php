@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\InputFilter;
 
 use Application\Entity\User;
-use CirclicalUser\Validator\PasswordValidator;
 use Application\Form\Filter\ArrayBlock;
+use CirclicalUser\Validator\PasswordValidator;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Validator\NoObjectExists;
 use Laminas\Filter\StringToLower;
@@ -13,6 +15,8 @@ use Laminas\InputFilter\InputFilter;
 use Laminas\Validator\EmailAddress;
 use Laminas\Validator\Identical;
 use Soflomo\Purifier\PurifierFilter;
+
+use function _;
 
 class RegisterInputFilter extends InputFilter
 {
@@ -42,7 +46,6 @@ class RegisterInputFilter extends InputFilter
                         'message' => _("That email address has a typo in it, or its domain can't be checked"),
                     ],
                 ],
-
                 [
                     'name' => NoObjectExists::class,
                     'options' => [

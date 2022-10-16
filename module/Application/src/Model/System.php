@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
-class System {
+use function json_decode;
+use function json_last_error;
+
+use const JSON_ERROR_NONE;
+
+class System
+{
     public static function isSSL(): bool
     {
         if (!empty($_SERVER['https'])) {
@@ -25,4 +31,3 @@ class System {
         return false;
     }
 }
-

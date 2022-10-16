@@ -8,3 +8,4 @@ phpunit.xml
 .phpunit.result.cache
 node_modules
 .idea
+config/autoload/mailgun.local.php
