@@ -24,7 +24,6 @@ use RuntimeException;
 
 use function call_user_func;
 use function in_array;
-use function mail;
 use function sprintf;
 
 class RegistrationListener implements ListenerAggregateInterface
