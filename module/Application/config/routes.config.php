@@ -7,6 +7,7 @@ use Application\Controller\IndexController;
 use Application\Controller\LoginController;
 use Application\Controller\LogoutController;
 use Application\Controller\RegistrationController;
+use Application\Controller\ResetPasswordController;
 use Application\Controller\TokenController;
 use Application\Controller\VerificationController;
 use Laminas\Router\Http\Literal;
@@ -69,6 +70,30 @@ return [
             'route' => '/forgot-submit',
             'defaults' => [
                 'controller' => ForgotPasswordController::class,
+                'action' => 'submit',
+            ],
+        ],
+    ],
+    'reset' => [
+        'type' => Segment::class,
+        'options' => [
+            'route' => '/reset/:code/:id',
+            'defaults' => [
+                'controller' => ResetPasswordController::class,
+                'action' => 'index',
+            ],
+            'constraints' => [
+                'code' => "[a-zA-Z0-9\=]+",
+                'id' => "[0-9]+",
+            ],
+        ],
+    ],
+    'reset-submit' => [
+        'type' => Literal::class,
+        'options' => [
+            'route' => '/reset-submit',
+            'defaults' => [
+                'controller' => ResetPasswordController::class,
                 'action' => 'submit',
             ],
         ],

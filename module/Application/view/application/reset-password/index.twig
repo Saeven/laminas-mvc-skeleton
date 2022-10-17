@@ -3,20 +3,14 @@
 <!--
   Forgot Password Page
 -->
-<div x-data="forgotForm()" class="min-h-screen bg-white flex">
+<div x-data="resetForm()" class="min-h-screen bg-white flex">
     <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div class="mx-auto w-full max-w-sm lg:w-96">
             <div>
                 <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
                 <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-                    Request password reset
+                    Reset Your Password
                 </h2>
-                <p class="mt-2 text-sm text-gray-600">
-                    Or, return to the
-                    <a href="/" class="font-medium text-indigo-600 hover:text-indigo-500">
-                        main page.
-                    </a>
-                </p>
             </div>
 
             {{ formMacros.conditionalSuccess() }}
@@ -24,14 +18,22 @@
             <div x-show="!success" class="mt-8">
                 <div class="mt-6">
                     <form
-                            @submit.prevent="processForgot($event)"
+                            @submit.prevent="processReset($event)"
                             method="post"
-                            action="/forgot-submit"
+                            action="/reset-submit"
                             class="space-y-6"
                     >
-                        {{ formRow(forgotForm.get('email')) }}
+                        {{ formRow(resetForm.get('email')) }}
 
-                        {{ formRow( forgotForm.get('submit')) }}
+                        {{ formRow(resetForm.get('password')) }}
+
+                        {{ formRow(resetForm.get('confirm_password')) }}
+
+                        {{ formRow(resetForm.get('submit')) }}
+
+                        {{ formRow(resetForm.get('id')) }}
+
+                        {{ formRow(resetForm.get('code')) }}
 
                         {{ formMacros.generalErrorMessage() }}
 
@@ -42,7 +44,7 @@
     </div>
     <div class="hidden lg:block relative w-0 flex-1">
         <img class="absolute inset-0 h-full w-full object-cover"
-             src="https://unsplash.com/photos/SMSLyc9FHl0/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTJ8fGFic3RyYWN0JTIwY29sb3JmdWx8ZW58MHx8fHwxNjY1OTY5NjI1&force=true&w=1920" alt="">
+             src="https://unsplash.com/photos/pazM9TQJ2Ck/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8Mjh8fGFic3RyYWN0JTIwY29sb3JmdWx8ZW58MHx8fHwxNjY1OTcyMzY3&force=true&w=1920" alt="">
     </div>
 </div>
 
@@ -50,10 +52,10 @@
     //
     // Forgot Password
     //
-    function forgotForm() {
+    function resetForm() {
         return {
 
-            {{ alpineBindings(forgotForm) }}
+            {{ alpineBindings(resetForm) }}
 
             // we submitting?
             isSubmitting: false,
@@ -72,7 +74,7 @@
                 }
             },
 
-            processForgot($event) {
+            processReset($event) {
                 const form = $event.target;
                 this.isSubmitting = true;
                 this.generalErrorMessage = null;

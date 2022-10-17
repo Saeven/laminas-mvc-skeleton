@@ -6,17 +6,23 @@ namespace Application\Listener;
 
 use Application\Controller\VerificationController;
 use Application\Entity\User;
+use Application\Model\System;
 use Application\Provider\Mail\MailProviderInterface;
 use Application\Service\UserService;
+use CirclicalUser\Entity\UserResetToken;
 use CirclicalUser\Mapper\UserMapper;
 use CirclicalUser\Module;
+use hisorange\BrowserDetect\Parser;
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Router\RouteMatch;
+use Laminas\View\Helper\ServerUrl;
 use Laminas\View\Model\ViewModel;
+use RuntimeException;
 
+use function call_user_func;
 use function in_array;
 use function mail;
 use function sprintf;
@@ -28,7 +34,8 @@ class RegistrationListener implements ListenerAggregateInterface
     public function __construct(
         private ?User $authenticatedUser,
         private UserMapper $userMapper,
-        private MailProviderInterface $mailProvider
+        private MailProviderInterface $mailProvider,
+        private ServerUrl $urlHelper
     ) {
         $this->listeners = [];
     }
@@ -95,13 +102,32 @@ class RegistrationListener implements ListenerAggregateInterface
     public function sendForgotPasswordEmail(EventInterface $event): void
     {
         $user = $event->getTarget();
+        if (!$user instanceof User) {
+            throw new RuntimeException("A User object was expected, but not received.");
+        }
+
         $token = $event->getParam('token');
+        if (!$token instanceof UserResetToken) {
+            throw new RuntimeException("A UserResetToken should have been received as parameter, but such was not the case.");
+        }
+
+        $browser = new Parser(cache: null, request: null, config: []);
+        $result = $browser->detect();
 
         $viewModel = (new ViewModel())
             ->setTerminal(true)
             ->setTemplate('emails/forgot-password')
             ->setVariables([
-                'token' => $token,
+                'operating_system' => $result->platformName(),
+                'browser_name' => $result->browserName(),
+                'ip_address' => System::getIP() ?? 'unknown ip',
+                'reset_link' => sprintf(
+                    "%s://%s/reset/%s/%d",
+                    System::isSSL() ? 'https' : 'http',
+                    $this->getSiteUrl(),
+                    $token->getToken(),
+                    $token->getId()
+                ),
             ]);
 
         $this->mailProvider->send(
@@ -109,5 +135,10 @@ class RegistrationListener implements ListenerAggregateInterface
             "Reset Your Password",
             $viewModel
         );
+    }
+
+    private function getSiteUrl(): string
+    {
+        return Module::isConsole() ? 'http://0.0.0.0:8080' : call_user_func($this->urlHelper);
     }
 }

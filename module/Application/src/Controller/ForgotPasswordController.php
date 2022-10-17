@@ -23,7 +23,7 @@ class ForgotPasswordController extends AbstractActionController
     /**
      * Display the form
      */
-    public function indexAction(): Response | ViewModel
+    public function indexAction(): Response|ViewModel
     {
         if ($this->auth()->getIdentity()) {
             return $this->redirect()->toRoute('home');
@@ -44,7 +44,9 @@ class ForgotPasswordController extends AbstractActionController
     {
         return $this->json()->wrapForm($this->forgotPasswordForm, $this->params()->fromPost(), function (array $sanitizedData) {
             try {
-                $this->userService->initiatePasswordRecovery($sanitizedData['email']);
+                $this->userService->initiatePasswordRecovery(
+                    emailAddress: $sanitizedData['email'],
+                );
             } catch (NoSuchUserException) {
             }
 

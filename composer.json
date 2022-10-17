@@ -23,6 +23,7 @@
     "laminas/laminas-mvc": "^3.1.1",
     "laminas/laminas-eventmanager": "^3.6.0",
     "laminas/laminas-filter": "^2.23.0",
+    "laminas/laminas-validator": "^2.26.0",
     "laminas/laminas-form": "^3.1.1",
     "laminas/laminas-view": "^2.24.0",
     "laminas/laminas-servicemanager": "^3.10.0",
@@ -57,7 +58,8 @@
     "twig/string-extra": "@stable",
     "twig/intl-extra": "@stable",
     "saeven/laminas-assetic": "*",
-    "bjeavons/zxcvbn-php": "1.3.1"
+    "bjeavons/zxcvbn-php": "1.3.1",
+    "hisorange/browser-detect": "4.5.3"
   },
   "replace": {
     "laminas/laminas-cache-storage-adapter-apc": "*",
@@ -106,7 +108,10 @@
       "php -r 'if (file_exists(\"bin/remove-package-artifacts.php\")) include \"bin/remove-package-artifacts.php\";'",
       "php -r 'if (file_exists(\"CHANGELOG.md\")) unlink(\"CHANGELOG.md\");'"
     ],
-    "serve": "php -S 0.0.0.0:8080 -t public",
+    "serve": [
+      "Composer\\Config::disableProcessTimeout",
+      "php -S 0.0.0.0:8080 -t public"
+    ],
     "myserve": "php -c /usr/local/etc/php/8.1/php.ini -S 0.0.0.0:8080 -t public",
     "test": "vendor/bin/phpunit",
     "static-analysis": "vendor/bin/psalm --shepherd --stats"

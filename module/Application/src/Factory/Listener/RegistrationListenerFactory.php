@@ -9,6 +9,7 @@ use Application\Provider\Mail\MailProviderInterface;
 use CirclicalUser\Mapper\UserMapper;
 use CirclicalUser\Service\AuthenticationService;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\View\Helper\ServerUrl;
 use Psr\Container\ContainerInterface;
 
 final class RegistrationListenerFactory implements FactoryInterface
@@ -18,7 +19,8 @@ final class RegistrationListenerFactory implements FactoryInterface
         return new RegistrationListener(
             $container->get(AuthenticationService::class)->getIdentity(),
             $container->get(UserMapper::class),
-            $container->get(MailProviderInterface::class)
+            $container->get(MailProviderInterface::class),
+            $container->get('ViewHelperManager')->get(ServerUrl::class)
         );
     }
 }

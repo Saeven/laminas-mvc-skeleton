@@ -7,6 +7,7 @@ use Application\Controller\IndexController;
 use Application\Controller\LoginController;
 use Application\Controller\LogoutController;
 use Application\Controller\RegistrationController;
+use Application\Controller\ResetPasswordController;
 use Application\Controller\TokenController;
 use Application\Controller\VerificationController;
 
@@ -20,6 +21,7 @@ return [
             LogoutController::class => ['default' => []],
             VerificationController::class => ['default' => ['user']],
             ForgotPasswordController::class => ['default' => []],
+            ResetPasswordController::class => ['default' => []],
         ],
     ],
 ];
