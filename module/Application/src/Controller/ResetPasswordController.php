@@ -63,6 +63,7 @@ class ResetPasswordController extends AbstractActionController
 
             try {
                 $this->authenticationService->setValidateIp(true);
+                $this->authenticationService->setValidateFingerprint(true);
                 $this->authenticationService->changePasswordWithRecoveryToken(
                     user: $user,
                     tokenId: $sanitizedData['id'],

@@ -91,6 +91,7 @@
                         return;
                     }
                     this.successMessage = json.message;
+                    setTimeout(() => this.success = false, 5000);
                 }).finally(() => {
                     this.isSubmitting = false;
                 });

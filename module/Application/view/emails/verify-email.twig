@@ -18,7 +18,7 @@
   <style>
     td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
   </style>
-  <![endif]-->    <title>Reset Your Password</title>
+  <![endif]-->    <title>Verify Your Email</title>
   <style>.space-y-10 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0 !important;
   margin-top: calc(40px * calc(1 - var(--tw-space-y-reverse))) !important;
@@ -51,10 +51,10 @@
   }
 }</style></head>
 <body class="dark-bg-slate-900" style="word-break: break-word; -webkit-font-smoothing: antialiased; margin: 0; width: 100%; background-color: #e5e7eb; padding: 0">    <div style="display: none">
-      🔒 Your password reset request from {{ company_name }}.
+      🪀 Verify your {{ company_name }} account.
       &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847;
     </div>
-  <div role="article" aria-roledescription="email" aria-label="Reset Your Password" lang="en">      <table style="width: 100%; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" cellpadding="0" cellspacing="0" role="presentation">
+  <div role="article" aria-roledescription="email" aria-label="Verify Your Email" lang="en">      <table style="width: 100%; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
           <td align="center">
             <table class="sm-w-full" style="width: 600px" cellpadding="0" cellspacing="0" role="presentation">
@@ -70,15 +70,13 @@
                   <table style="width: 100%" cellpadding="0" cellspacing="0" role="presentation">
                     <tr>
                       <td style="border-radius: 16px; background-color: #1e293b; padding: 32px; text-align: left; font-size: 16px; line-height: 20px; color: #cbd5e1">
-                        <p>Hello,</p>
-                        <p style="margin-top: 40px; margin-bottom: 40px; font-size: 20px; font-weight: 600; line-height: 20px; color: #fff">We heard you lost your {{ company_name }} password!</p>
+                        <p>Welcome!</p>
+                        <p style="margin-top: 40px; margin-bottom: 40px; font-size: 20px; font-weight: 600; line-height: 20px; color: #fff">We're glad to have you on board!</p>
                         <div class="space-y-10" style="display: flex; flex-direction: column">
-                          <p>Don't worry, we're here to help. Click the button below to begin the recovery process.</p>
-                          <p style="--tw-space-y-reverse: 0; margin-top: calc(40px * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(40px * var(--tw-space-y-reverse));">Please note, <b>this link is only valid for one hour</b>. You'll have to restart this process
-                            if you cannot complete the recovery within that timeframe.</p>
+                          <p>We just need to ensure that your email address is valid. Please click the link below to let us know it's really you!</p>
                           <a href="{{ reset_link }}" class="sm-w-full hover-bg-sky-200 dark-bg-sky-300" style="border-radius: 4px; padding-top: 16px; padding-bottom: 16px; text-align: center; font-size: 16px; font-weight: 600; color: #0f172a; text-decoration-line: none; --tw-space-y-reverse: 0; margin-top: calc(40px * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(40px * var(--tw-space-y-reverse))">
                             <!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%; mso-text-raise:30px;">&#8202;</i><![endif]-->
-                            <span style="mso-text-raise: 16px;">Reset Your Password &rarr;</span>
+                            <span style="mso-text-raise: 16px;">Verify My Email &rarr;</span>
                             <!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%;">&#8202;</i><![endif]-->
                           </a>
                         </div>
@@ -90,9 +88,7 @@
                           </tr>
                         </table>
                         <div style="color: #9ca3af">
-                          <p>For security, this request was received from a {{ operating_system }} device using {{ browser_name }} from IP address {{ ip_address }}.</p>
-                          <p>If you did not request a password reset, please ignore this email or
-                            <a href="mailto:{{ company_email }}" class="hover-no-underline" style="color: #3b82f6; text-decoration-line: underline">contact us</a> if you have questions.</p>
+                          <p>Please <a href="mailto:{{ company_email }}" class="hover-no-underline" style="color: #3b82f6; text-decoration-line: underline">contact us</a> if you have questions.</p>
                         </div>
                       </td>
                     </tr>

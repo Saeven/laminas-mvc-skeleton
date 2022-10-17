@@ -35,7 +35,9 @@ class RegistrationListener implements ListenerAggregateInterface
         private ?User $authenticatedUser,
         private UserMapper $userMapper,
         private MailProviderInterface $mailProvider,
-        private ServerUrl $urlHelper
+        private ServerUrl $urlHelper,
+        private string $senderName,
+        private string $senderEmail
     ) {
         $this->listeners = [];
     }
@@ -89,13 +91,28 @@ class RegistrationListener implements ListenerAggregateInterface
         $user = $event->getTarget();
         $verificationData = $user->getVerificationData();
         $this->userMapper->update($user);
+        $siteURL = $this->getSiteUrl();
 
-        // you'd probably want to make this defer to a mailing service (SES, Mailgun, etc.) in the real world
-        // just here as is for example's sake
-        mail(
-            $user->getEmail(),
+        $viewModel = (new ViewModel())
+            ->setTerminal(true)
+            ->setTemplate('emails/verify-email')
+            ->setVariables([
+                'company_url' => $siteURL,
+                'company_name' => $this->senderName,
+                'company_email' => $this->senderEmail,
+                'logo_url' => $siteURL . '/assets/images/logo.svg',
+                'ip_address' => System::getIP() ?? 'unknown ip',
+                'reset_link' => sprintf(
+                    "%s/register/verify/%s",
+                    $siteURL,
+                    $verificationData->getToken()
+                ),
+            ]);
+
+        $this->mailProvider->send(
+            $user,
             'Please Verify Your Account',
-            sprintf("Your validation link is http://0.0.0.0:8080/register/verify/%s", $verificationData->getToken())
+            $viewModel
         );
     }
 
@@ -111,20 +128,23 @@ class RegistrationListener implements ListenerAggregateInterface
             throw new RuntimeException("A UserResetToken should have been received as parameter, but such was not the case.");
         }
 
-        $browser = new Parser(cache: null, request: null, config: []);
-        $result = $browser->detect();
+        $result = (new Parser(cache: null, request: null, config: []))->detect();
 
+        $siteURL = $this->getSiteUrl();
         $viewModel = (new ViewModel())
             ->setTerminal(true)
             ->setTemplate('emails/forgot-password')
             ->setVariables([
+                'company_url' => $siteURL,
+                'company_name' => $this->senderName,
+                'company_email' => $this->senderEmail,
+                'logo_url' => $siteURL . '/assets/images/logo.svg',
                 'operating_system' => $result->platformName(),
                 'browser_name' => $result->browserName(),
                 'ip_address' => System::getIP() ?? 'unknown ip',
                 'reset_link' => sprintf(
-                    "%s://%s/reset/%s/%d",
-                    System::isSSL() ? 'https' : 'http',
-                    $this->getSiteUrl(),
+                    "%s/reset/%s/%d",
+                    $siteURL,
                     $token->getToken(),
                     $token->getId()
                 ),
