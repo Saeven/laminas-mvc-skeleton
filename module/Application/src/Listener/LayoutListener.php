@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Listener;
 
-use Application\Mapper\ConfigurationMapper;
-use Application\Service\Storage\StorageInterface;
+use CirclicalUser\Module;
 use CirclicalUser\Service\AuthenticationService;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
@@ -11,8 +12,10 @@ use Laminas\Http\Request;
 use Laminas\Http\Response;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
-use SilverStar\Model\OptionsProvider;
-use SilverStar\Service\CurrencyService;
+use Locale;
+
+use function getcwd;
+use function str_replace;
 
 class LayoutListener implements ListenerAggregateInterface
 {
@@ -24,15 +27,21 @@ class LayoutListener implements ListenerAggregateInterface
         $this->listeners = [];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        if (!\CirclicalUser\Module::isConsole()) {
+        if (!Module::isConsole()) {
             $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH, [$this, 'attachLayoutData']);
             $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'prepareException']);
             $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'prepareException']);
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function detach(EventManagerInterface $events)
     {
         foreach ($this->listeners as $index => $listener) {
@@ -53,14 +62,13 @@ class LayoutListener implements ListenerAggregateInterface
         // 1. Always set locale
         //
         $viewModel->setVariables([
-            'locale' => \Locale::getDefault(),
+            'locale' => Locale::getDefault(),
         ]);
 
         $request = $event->getRequest();
         if ($request instanceof Request && $request->isXmlHttpRequest()) {
             return;
         }
-
 
         //
         // 2. Set User data, if available
@@ -105,7 +113,7 @@ class LayoutListener implements ListenerAggregateInterface
                         ->setTerminal(true)
                         ->setTemplate($isAjax ? 'error/index-ajax' : 'error/index')
                         ->setVariables([
-                            'errorClass' => get_class($exception),
+                            'errorClass' => $exception::class,
                             'controller' => $event->getParam('controller-class'),
                             'exception' => $exception,
                             'exceptionTrace' => str_replace(getcwd(), '', $exception->getTraceAsString()),

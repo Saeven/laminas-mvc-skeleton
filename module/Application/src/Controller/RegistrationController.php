@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Controller;
 
 use Application\Entity\User;
@@ -8,6 +10,7 @@ use Application\Form\RegisterForm;
 use CirclicalUser\Mapper\UserMapper;
 use CirclicalUser\Service\AccessService;
 use CirclicalUser\Service\AuthenticationService;
+use DateTime;
 use Exception;
 use Laminas\EventManager\EventManager;
 use Laminas\Http\Response;
@@ -34,6 +37,13 @@ class RegistrationController extends AbstractActionController
         }
 
         $this->layout()->setTemplate('layout/layout-auth');
+
+        $response = $this->getResponse();
+        $response->getHeaders()
+            ->addHeaderLine('Content-Encoding: identity')
+            ->addHeaderLine('Cache-Control: no-store, no-cache, must-revalidate, max-age=0')
+            ->addHeaderLine('Pragma: no-cache')
+            ->addHeaderLine('Expires: ' . (new DateTime())->modify('-1 day')->format('D, d M Y H:i:s T'));
 
         return new ViewModel([
             'registerForm' => $this->registerForm,

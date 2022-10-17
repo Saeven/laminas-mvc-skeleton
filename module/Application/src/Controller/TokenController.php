@@ -7,6 +7,7 @@ namespace Application\Controller;
 use Application\Model\ApplicationTokenScopeInterface;
 use CirclicalUser\Entity\UserApiToken;
 use CirclicalUser\Mapper\UserMapper;
+use Exception;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\JsonModel;
 
@@ -37,7 +38,7 @@ class TokenController extends AbstractActionController
 
             $user = $this->auth()->requireIdentity();
             if (!$apiToken = $user->findApiTokenWithId($tokenId)) {
-                throw new \Exception("Sorry, no such token was found.");
+                throw new Exception("Sorry, no such token was found.");
             }
 
             $user->removeApiToken($apiToken);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Global Configuration Override
  *
@@ -12,4 +14,9 @@
  * file.
  */
 
-return [];
+return [
+    'identity' => [
+        'name' => 'Sample Application',
+        'email' => 'your@email.com',
+    ],
+];

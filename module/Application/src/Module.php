@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\Listener\LayoutListener;
 use Application\Listener\RegistrationListener;
 use Laminas\Mvc\MvcEvent;
-use Application\Listener\LayoutListener;
 
 class Module
 {

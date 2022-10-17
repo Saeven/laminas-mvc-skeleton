@@ -1,0 +1,75 @@
+---
+title: "Verify Your Email"
+preheader: "🪀 Verify your @@{{ company_name }} account."
+bodyClass: bg-gray-200 dark:bg-slate-900
+---
+
+<extends src="src/layouts/main.html">
+  <block name="template">
+    <raw>
+      <table class="w-full font-sans">
+        <tr>
+          <td align="center">
+            <table class="w-150 sm:w-full">
+              <tr>
+                <td class="py-12 px-24 text-center">
+                  <a href="{{ company_url }}">
+                    <img src="{{ logo_url }}" width="75" alt="{{ company_name }}">
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td class="sm:px-6">
+                  <table class="w-full">
+                    <tr>
+                      <td class="bg-slate-800 text-gray-800 text-slate-300 text-base text-left p-8 leading-5 rounded-2xl">
+                        <p>Welcome!</p>
+
+                        <p class="text-xl leading-5 text-white font-semibold mt-10 mb-10">We're glad to have you on board!</p>
+
+                        <div class="space-y-10 flex flex-col">
+
+                          <p>We just need to ensure that your email address is valid. Please click the link below to let us know it's really you!</p>
+
+                          <a href="{{ reset_link }}"
+                             class="py-4 sm:w-full rounded text-base text-center font-semibold no-underline hover:bg-sky-200 dark:bg-sky-300 text-slate-900"
+                          >
+                            <!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%; mso-text-raise:30px;">&#8202;</i><![endif]-->
+                            <span style="mso-text-raise: 16px;">Verify My Email &rarr;</span>
+                            <!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%;">&#8202;</i><![endif]-->
+                          </a>
+
+                        </div>
+
+                        <table class="w-full">
+                          <tr>
+                            <td class="pt-12 pb-7">
+                              <div class="bg-gradient-to-r from-sky-300/0 via-sky-300/70 to-sky-300/0 h-px leading-px">&zwnj;</div>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <div class="text-gray-400">
+                          <p>Please <a href="mailto:{{ company_email }}" class="text-blue-500 underline hover:no-underline">contact us</a> if you have questions.</p>
+                        </div>
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="h-48"></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center text-gray-600 text-xs px-24">
+                        <p class="italic">{{ synopsis }}</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </raw>
+  </block>
+</extends>

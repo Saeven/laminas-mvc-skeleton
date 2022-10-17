@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace Application\Entity;
 
+use CirclicalUser\Entity\Authentication;
 use CirclicalUser\Entity\UserApiToken;
 use CirclicalUser\Provider\AuthenticationRecordInterface;
 use CirclicalUser\Provider\RoleInterface;
 use CirclicalUser\Provider\UserInterface;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonException;
-use Lemonade\Entity\UserEmailVerify;
+
+use function json_encode;
+
+use const JSON_PRETTY_PRINT;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @ORM\Entity
@@ -45,7 +52,6 @@ class User implements UserInterface
      */
     private $first_name;
 
-
     /**
      * @ORM\Column(type="string", length=64)
      *
@@ -56,7 +62,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime_immutable", options={"default": "CURRENT_TIMESTAMP"});
      *
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $time_registered;
 
@@ -74,6 +80,8 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="CirclicalUser\Entity\Authentication", cascade={"persist"}, mappedBy="user")
+     *
+     * @var Authentication
      */
     private $authenticationRecord;
 
@@ -94,7 +102,7 @@ class User implements UserInterface
     public function __construct(string $email)
     {
         $this->email = $email;
-        $this->time_registered = new \DateTimeImmutable();
+        $this->time_registered = new DateTimeImmutable();
         $this->roles = new ArrayCollection();
     }
 
@@ -110,7 +118,7 @@ class User implements UserInterface
 
     public function getRoles(): array
     {
-        if ($this->roles) {
+        if ($this->roles->count() > 0) {
             return $this->roles->getValues();
         }
 
@@ -131,14 +139,14 @@ class User implements UserInterface
         }
     }
 
-    public function getTimeRegistered(): \DateTimeImmutable
+    public function getTimeRegistered(): DateTimeImmutable
     {
         return $this->time_registered;
     }
 
-    public function getPreferredTimezone(): \DateTimeZone
+    public function getPreferredTimezone(): DateTimeZone
     {
-        return new \DateTimeZone('America/New_York');
+        return new DateTimeZone('America/New_York');
     }
 
     public function hasRoleWithName(string $roleName): bool
@@ -217,5 +225,15 @@ class User implements UserInterface
         }
 
         return $this->verification_data;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->first_name;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->last_name;
     }
 }

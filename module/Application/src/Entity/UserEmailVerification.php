@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 use function bin2hex;
+use function random_bytes;
 
 /**
  * User email verification
@@ -43,7 +45,7 @@ class UserEmailVerification
     protected $token;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(User $user)
     {

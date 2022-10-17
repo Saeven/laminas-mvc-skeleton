@@ -1,14 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
+use Application\Controller\ForgotPasswordController;
+use Application\Controller\IndexController;
+use Application\Controller\LoginController;
+use Application\Controller\LogoutController;
+use Application\Controller\RegistrationController;
+use Application\Controller\ResetPasswordController;
+use Application\Controller\TokenController;
+use Application\Controller\VerificationController;
+
 return [
     'Application' => [
         'controllers' => [
-            \Application\Controller\IndexController::class => ['default' => []],
-            \Application\Controller\RegistrationController::class => ['default' => []],
-            \Application\Controller\LoginController::class => ['default' => []],
-            \Application\Controller\TokenController::class => ['default' => ['user']],
-            \Application\Controller\LogoutController::class => ['default' => []],
-            \Application\Controller\VerificationController::class => ['default' => ['user']],
+            IndexController::class => ['default' => []],
+            RegistrationController::class => ['default' => []],
+            LoginController::class => ['default' => []],
+            TokenController::class => ['default' => ['user']],
+            LogoutController::class => ['default' => []],
+            VerificationController::class => ['default' => ['user']],
+            ForgotPasswordController::class => ['default' => []],
+            ResetPasswordController::class => ['default' => []],
         ],
     ],
 ];

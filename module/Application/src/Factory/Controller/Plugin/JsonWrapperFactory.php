@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Factory\Controller\Plugin;
 
-use Interop\Container\ContainerInterface;
+use Application\Controller\Plugin\JsonWrapper;
 use Laminas\Mvc\I18n\Translator;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Application\Controller\Plugin\JsonWrapper;
+use Psr\Container\ContainerInterface;
 
 class JsonWrapperFactory implements FactoryInterface
 {

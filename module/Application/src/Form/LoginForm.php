@@ -1,17 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Form;
 
+use Circlical\TailwindForms\Form\Form;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Checkbox;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Password;
 use Laminas\Form\Element\Text;
-use Circlical\TailwindForms\Form\Form;
+
+use function _;
 
 class LoginForm extends Form
 {
-    public function __construct($name = null, $options = [])
+    public function __construct(?string $name = null, ?array $options = [])
     {
         $this->setGenerateAlpineMarkup(true);
         parent::__construct($name, $options);

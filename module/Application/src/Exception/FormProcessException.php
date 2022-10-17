@@ -1,18 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Exception;
 
-use Laminas\Form\Form;
+use Exception;
+use Laminas\Form\FormInterface;
 use Throwable;
 
-class FormProcessException extends \Exception
+use function array_values;
+
+class FormProcessException extends Exception
 {
     public function __construct(
-        private Form $form,
-        $message = "",
-        $code = 0,
-        Throwable $previous = null
-
+        private FormInterface $form,
+        string $message = "",
+        int $code = 0,
+        ?Throwable $previous = null
     ) {
         parent::__construct($message, $code, $previous);
     }

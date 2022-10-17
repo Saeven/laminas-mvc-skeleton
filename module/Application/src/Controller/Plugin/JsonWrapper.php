@@ -1,14 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Controller\Plugin;
 
-use Application\Exception\FormServiceProcessException;
+use Application\Exception\FormProcessException;
+use Exception;
 use Laminas\Form\Form;
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 use Laminas\Mvc\Controller\Plugin\Params;
 use Laminas\Mvc\I18n\Translator;
 use Laminas\View\Model\JsonModel;
-use Application\Exception\FormProcessException;
+
+use function array_merge;
+use function call_user_func_array;
+use function is_array;
+use function is_callable;
+use function is_string;
 
 class JsonWrapper extends AbstractPlugin
 {
@@ -17,7 +25,7 @@ class JsonWrapper extends AbstractPlugin
     ) {
     }
 
-    public function wrap($callable): JsonModel
+    public function wrap(callable $callable): JsonModel
     {
         $response = ['success' => false];
         if (is_callable($callable)) {
@@ -33,12 +41,12 @@ class JsonWrapper extends AbstractPlugin
                 if (!isset($returnedData['success'])) {
                     $response['success'] = true;
                 }
-            } catch (FormServiceProcessException $exception) {
+            } catch (FormProcessException $exception) {
                 $response['message'] = $exception->getMessage();
-                $response['form_errors'] = $exception->getFormErrors();
-            } catch (\Exception $x) {
+                $response['form_errors'] = $exception->getFieldErrors();
+            } catch (Exception $x) {
                 $message = $x->getMessage();
-                $response['message'] = $message !== '' ? $message : get_class($x);
+                $response['message'] = $message !== '' ? $message : $x::class;
             }
         }
 
@@ -49,7 +57,7 @@ class JsonWrapper extends AbstractPlugin
      * This helper will set data for a form, and the callable gives you a simplification into
      * the post-validation callback block.
      */
-    public function wrapForm(Form $form, array $rawData, $callable): JsonModel
+    public function wrapForm(Form $form, array $rawData, callable $callable): JsonModel
     {
         $response = ['success' => false];
         if (is_callable($callable)) {
@@ -79,16 +87,16 @@ class JsonWrapper extends AbstractPlugin
             } catch (FormProcessException $exception) {
                 $response['message'] = $exception->getMessage();
                 $response['form_errors'] = $exception->getFieldErrors();
-            } catch (\Exception $x) {
+            } catch (Exception $x) {
                 $message = $x->getMessage();
-                $response['message'] = $message !== '' ? $message : get_class($x);
+                $response['message'] = $message !== '' ? $message : $x::class;
             }
         }
 
         return new JsonModel($response);
     }
 
-    public function wrapWithPost(Params $params, array $required, $callable): JsonModel
+    public function wrapWithPost(Params $params, array $required, callable $callable): JsonModel
     {
         $response = ['success' => false];
 
@@ -115,10 +123,10 @@ class JsonWrapper extends AbstractPlugin
                 if (!isset($returnedData['success'])) {
                     $response['success'] = true;
                 }
-            } catch (FormServiceProcessException $exception) {
+            } catch (FormProcessException $exception) {
                 $response['message'] = $exception->getMessage();
-                $response['form_errors'] = $exception->getFormErrors();
-            } catch (\Exception $x) {
+                $response['form_errors'] = $exception->getFieldErrors();
+            } catch (Exception $x) {
                 $response['message'] = $x->getMessage();
             }
         }

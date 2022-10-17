@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+use Application\Entity\User;
+use Application\Model\System;
+use CirclicalUser\Service\PasswordChecker\Zxcvbn;
+
 return [
     'circlical' => [
         'user' => [
-
             /**
              * Configuration settings for the access service
              */
             'access' => [
-
                 'superadmin' => [
 
                     /**
@@ -30,11 +34,10 @@ return [
              * the default entities and relationships (recommended) -- this is the only config you need!
              */
             'doctrine' => [
-                'entity' => \Application\Entity\User::class,
+                'entity' => User::class,
             ],
-
             'password_strength_checker' => [
-                'implementation' => \CirclicalUser\Service\PasswordChecker\Zxcvbn::class,
+                'implementation' => Zxcvbn::class,
                 'config' => [
                     'required_strength' => 3,
                 ],
@@ -45,9 +48,8 @@ return [
              * how to behave.
              */
             'auth' => [
-
                 'secure_cookies' => static function () {
-                    return \Application\Model\System::isSSL();
+                    return System::isSSL();
                 },
 
                 // Lax is required, instead of Strict, or SSO breaks
@@ -84,16 +86,13 @@ return [
                      * Make sure that the request IP matches the verification IP
                      */
                     'validate_ip' => false,
-
                 ],
             ],
-
 
             /*
              * When a user tries to access a page gated by auth, or rights - what do we do with them?
              * This user module provides a simple 'Redirect' strategy, but you can also roll your own
              */
-
             'deny_strategy' => [
 
                 /*
@@ -110,7 +109,6 @@ return [
 //                    'action' => 'login',
 //                ],
             ],
-
         ],
     ],
 ];

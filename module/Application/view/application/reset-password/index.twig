@@ -1,0 +1,102 @@
+{% import 'macros/form-macros' as formMacros %}
+
+<!--
+  Forgot Password Page
+-->
+<div x-data="resetForm()" class="min-h-screen bg-white flex">
+    <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                    Reset Your Password
+                </h2>
+            </div>
+
+            {{ formMacros.conditionalSuccess() }}
+
+            <div x-show="!success" class="mt-8">
+                <div class="mt-6">
+                    <form
+                            @submit.prevent="processReset($event)"
+                            method="post"
+                            action="/reset-submit"
+                            class="space-y-6"
+                    >
+                        {{ formRow(resetForm.get('email')) }}
+
+                        {{ formRow(resetForm.get('password')) }}
+
+                        {{ formRow(resetForm.get('confirm_password')) }}
+
+                        {{ formRow(resetForm.get('submit')) }}
+
+                        {{ formRow(resetForm.get('id')) }}
+
+                        {{ formRow(resetForm.get('code')) }}
+
+                        {{ formMacros.generalErrorMessage() }}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden lg:block relative w-0 flex-1">
+        <img class="absolute inset-0 h-full w-full object-cover"
+             src="https://unsplash.com/photos/pazM9TQJ2Ck/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8Mjh8fGFic3RyYWN0JTIwY29sb3JmdWx8ZW58MHx8fHwxNjY1OTcyMzY3&force=true&w=1920" alt="">
+    </div>
+</div>
+
+<script>
+    //
+    // Forgot Password
+    //
+    function resetForm() {
+        return {
+
+            {{ alpineBindings(resetForm) }}
+
+            // we submitting?
+            isSubmitting: false,
+
+            // general message that appears below the form
+            generalErrorMessage: null,
+
+            // we've succeeded
+            success: false,
+
+            successMessage: null,
+
+            clearErrors() {
+                for (const [key, value] of Object.entries(this.errors)) {
+                    this.errors[key] = [];
+                }
+            },
+
+            processReset($event) {
+                const form = $event.target;
+                this.isSubmitting = true;
+                this.generalErrorMessage = null;
+                this.clearErrors();
+
+                Utilities.post(
+                    form.action,
+                    this.data
+                ).then(json => {
+                    this.success = json.success;
+                    if (!json.success) {
+                        if (json.form_errors) {
+                            this.errors = json.form_errors;
+                        }
+                        this.generalErrorMessage = json.message;
+                        return;
+                    }
+                    this.successMessage = json.message;
+                }).finally(() => {
+                    this.isSubmitting = false;
+                });
+            }
+        }
+    }
+</script>

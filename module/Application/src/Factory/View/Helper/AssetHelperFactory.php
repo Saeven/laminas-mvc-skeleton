@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application\Factory\View\Helper;
 
 use Circlical\AsseticBundle\View\Helper\Asset;
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 final class AssetHelperFactory implements FactoryInterface
 {
@@ -13,4 +15,3 @@ final class AssetHelperFactory implements FactoryInterface
         return new Asset($container);
     }
 }
-

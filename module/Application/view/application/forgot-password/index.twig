@@ -1,0 +1,101 @@
+{% import 'macros/form-macros' as formMacros %}
+
+<!--
+  Forgot Password Page
+-->
+<div x-data="forgotForm()" class="min-h-screen bg-white flex">
+    <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                    Request password reset
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Or, return to the
+                    <a href="/" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        main page.
+                    </a>
+                </p>
+            </div>
+
+            {{ formMacros.conditionalSuccess() }}
+
+            <div x-show="!success" class="mt-8">
+                <div class="mt-6">
+                    <form
+                            @submit.prevent="processForgot($event)"
+                            method="post"
+                            action="/forgot-submit"
+                            class="space-y-6"
+                    >
+                        {{ formRow(forgotForm.get('email')) }}
+
+                        {{ formRow( forgotForm.get('submit')) }}
+
+                        {{ formMacros.generalErrorMessage() }}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden lg:block relative w-0 flex-1">
+        <img class="absolute inset-0 h-full w-full object-cover"
+             src="https://unsplash.com/photos/SMSLyc9FHl0/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTJ8fGFic3RyYWN0JTIwY29sb3JmdWx8ZW58MHx8fHwxNjY1OTY5NjI1&force=true&w=1920" alt="">
+    </div>
+</div>
+
+<script>
+    //
+    // Forgot Password
+    //
+    function forgotForm() {
+        return {
+
+            {{ alpineBindings(forgotForm) }}
+
+            // we submitting?
+            isSubmitting: false,
+
+            // general message that appears below the form
+            generalErrorMessage: null,
+
+            // we've succeeded
+            success: false,
+
+            successMessage: null,
+
+            clearErrors() {
+                for (const [key, value] of Object.entries(this.errors)) {
+                    this.errors[key] = [];
+                }
+            },
+
+            processForgot($event) {
+                const form = $event.target;
+                this.isSubmitting = true;
+                this.generalErrorMessage = null;
+                this.clearErrors();
+
+                Utilities.post(
+                    form.action,
+                    this.data
+                ).then(json => {
+                    this.success = json.success;
+                    if (!json.success) {
+                        if (json.form_errors) {
+                            this.errors = json.form_errors;
+                        }
+                        this.generalErrorMessage = json.message;
+                        return;
+                    }
+                    this.successMessage = json.message;
+                    setTimeout(() => this.success = false, 5000);
+                }).finally(() => {
+                    this.isSubmitting = false;
+                });
+            }
+        }
+    }
+</script>
