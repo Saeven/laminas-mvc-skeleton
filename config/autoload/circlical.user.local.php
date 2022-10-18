@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use Application\Controller\LoginController;
 use Application\Entity\User;
 use Application\Model\System;
 use CirclicalUser\Service\PasswordChecker\Zxcvbn;
+use CirclicalUser\Strategy\RedirectStrategy;
 
 return [
     'circlical' => [
@@ -98,16 +100,16 @@ return [
                 /*
                  * The strategy provider, that implements CirclicalUser\Provider\DenyStrategyInterface
                  */
-//                'class' => '',
+                'class' => RedirectStrategy::class,
 
                 /*
                  * Options specifically required by RedirectStrategy.  You would probably comment this out if you were
                  * to roll your own.
                  */
-//                'options' => [
-//                    'controller' => \Lemonade\Controller\AuthController::class,
-//                    'action' => 'login',
-//                ],
+                'options' => [
+                    'controller' => LoginController::class,
+                    'action' => 'index',
+                ],
             ],
         ],
     ],

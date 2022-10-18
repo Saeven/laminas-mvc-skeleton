@@ -37,7 +37,10 @@ class ResetPasswordController extends AbstractActionController
         $this->layout()->setTemplate('layout/layout-auth');
 
         $response = $this->getResponse();
-        $response->getHeaders()->addHeaderLine('Content-Encoding: identity');
+
+        if ($response instanceof Response) {
+            $response->getHeaders()->addHeaderLine('Content-Encoding: identity');
+        }
 
         $params = $this->params();
 
@@ -54,7 +57,9 @@ class ResetPasswordController extends AbstractActionController
     public function submitAction(): JsonModel
     {
         $response = $this->getResponse();
-        $response->getHeaders()->addHeaderLine('Content-Encoding: identity');
+        if ($response instanceof Response) {
+            $response->getHeaders()->addHeaderLine('Content-Encoding: identity');
+        }
 
         return $this->json()->wrapForm($this->resetPasswordForm, $this->params()->fromPost(), function (array $sanitizedData) {
             if (!$user = $this->userMapper->findByEmail(email: $sanitizedData['email'])) {

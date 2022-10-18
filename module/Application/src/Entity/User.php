@@ -236,4 +236,9 @@ class User implements UserInterface
     {
         return $this->last_name;
     }
+
+    public function getInitials(): string
+    {
+        return $this->first_name[0] . $this->last_name[0];
+    }
 }

@@ -39,11 +39,13 @@ class RegistrationController extends AbstractActionController
         $this->layout()->setTemplate('layout/layout-auth');
 
         $response = $this->getResponse();
-        $response->getHeaders()
-            ->addHeaderLine('Content-Encoding: identity')
-            ->addHeaderLine('Cache-Control: no-store, no-cache, must-revalidate, max-age=0')
-            ->addHeaderLine('Pragma: no-cache')
-            ->addHeaderLine('Expires: ' . (new DateTime())->modify('-1 day')->format('D, d M Y H:i:s T'));
+        if ($response instanceof Response) {
+            $response->getHeaders()
+                ->addHeaderLine('Content-Encoding: identity')
+                ->addHeaderLine('Cache-Control: no-store, no-cache, must-revalidate, max-age=0')
+                ->addHeaderLine('Pragma: no-cache')
+                ->addHeaderLine('Expires: ' . (new DateTime())->modify('-1 day')->format('D, d M Y H:i:s T'));
+        }
 
         return new ViewModel([
             'registerForm' => $this->registerForm,
