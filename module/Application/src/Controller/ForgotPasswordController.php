@@ -33,7 +33,9 @@ class ForgotPasswordController extends AbstractActionController
         $this->layout()->setTemplate('layout/layout-auth');
 
         $response = $this->getResponse();
-        $response->getHeaders()->addHeaderLine('Content-Encoding: identity');
+        if ($response instanceof Response) {
+            $response->getHeaders()->addHeaderLine('Content-Encoding: identity');
+        }
 
         return new ViewModel([
             'forgotForm' => $this->forgotPasswordForm,

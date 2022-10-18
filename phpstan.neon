@@ -1,0 +1,9 @@
+parameters:
+  excludePaths:
+    - *module/*/test/**
+    - *module/*/Entity/*
+  level: 3
+  ignoreErrors:
+    - '#Call to an undefined method [A-Za-z0-9\\_]+::json().#'
+    - '#Call to an undefined method [A-Za-z0-9\\_]+::auth().#'
+    - '#Call to an undefined method [A-Za-z0-9\\_]+::isXmlHttpRequest()#'

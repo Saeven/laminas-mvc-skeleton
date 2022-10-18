@@ -44,6 +44,7 @@ return [
                 'base_css' => [
                     'assets' => [
                         'css/tailwind-compiled.css',
+                        'css/xloader.css',
                     ],
                     'options' => [
                         'output' => 'head_application.css',

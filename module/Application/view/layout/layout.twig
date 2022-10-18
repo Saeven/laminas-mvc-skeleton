@@ -1,5 +1,5 @@
 {{ doctype() }}
-<html lang="en" style="height:100%;">
+<html lang="en" style="height:100%;" class="h-full">
 <head>
     {% block title %}
         {{ headTitle('Application') }}
@@ -23,42 +23,17 @@
     {% endblock %}
 
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.2.3/cdn.js" defer></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.4/cdn.js" defer></script>
 </head>
-<body x-data="pageState()" @cartupdate.window="updateCartContents">
+<body class="h-full" x-data="pageState()">
 
-<div class="h-screen flex overflow-hidden bg-white pt-16">
-    <div class="flex-1 relative z-0 flex overflow-hidden">
-        <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last">
-            <!-- Start main area-->
-            {{ content | raw }}
-            <!-- End main area -->
-        </main>
-    </div>
-</div>
+<!-- Start main area-->
+{{ content | raw }}
+<!-- End main area -->
 
 <script>
     function pageState() {
         return {
-            cartIsVisible: false,
-
-            cartIsLoading: false,
-
-            mobileMenuIsOpen: false,
-
-            showMobileMenu() {
-                this.mobileMenuIsOpen = true;
-            },
-
-            hideMobileMenu() {
-                this.mobileMenuIsOpen = false;
-            },
-
-            loadSomething() {
-                $("#main-container").load('/cart/contents');
-            },
-
             showSuccess(title, message) {
                 this.$dispatch(
                     'notice', {

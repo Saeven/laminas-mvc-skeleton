@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use Application\Controller\DashboardController;
 use Application\Controller\ForgotPasswordController;
 use Application\Controller\IndexController;
 use Application\Controller\LoginController;
 use Application\Controller\LogoutController;
 use Application\Controller\RegistrationController;
+use Application\Controller\ReportController;
 use Application\Controller\ResetPasswordController;
 use Application\Controller\TokenController;
 use Application\Controller\VerificationController;
@@ -151,7 +153,26 @@ return [
             ],
         ],
     ],
-
+    'view-reports' => [
+        'type' => Literal::class,
+        'options' => [
+            'route' => '/views/reports',
+            'defaults' => [
+                'controller' => ReportController::class,
+                'action' => 'index',
+            ],
+        ],
+    ],
+    'view-dashboard' => [
+        'type' => Literal::class,
+        'options' => [
+            'route' => '/views/dashboard',
+            'defaults' => [
+                'controller' => DashboardController::class,
+                'action' => 'index',
+            ],
+        ],
+    ],
     //
     // Boilerplate Routes Below
     //

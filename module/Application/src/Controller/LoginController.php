@@ -9,8 +9,8 @@ use Application\Form\LoginForm;
 use CirclicalUser\Exception\BadPasswordException;
 use CirclicalUser\Exception\NoSuchUserException;
 use Exception;
+use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
-use Laminas\Stdlib\ResponseInterface;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
 
@@ -24,7 +24,7 @@ class LoginController extends AbstractActionController
     /**
      * Display the form
      */
-    public function indexAction(): ResponseInterface | ViewModel
+    public function indexAction(): Response | ViewModel
     {
         if ($this->auth()->getIdentity()) {
             return $this->redirect()->toRoute('home');
